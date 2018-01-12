@@ -26,15 +26,29 @@ class ViewController: UIViewController {
     
     func initBusData(){ //must change to run somewhereinside appdelegate thing to update or save all bus api data into coredata
         let context = self.appDelegate.persistentContainer.viewContext
+        //initialise and create all bus stops
+        let busStop = BusStop(context : context)
+        busStop.stopNo = 0
+        
+        
+        //https://github.com/tristanhimmelman/AlamofireObjectMapper
+        
+        /*
+        busStop.addToFormsRoute(<#T##value: BusServiceRoute##BusServiceRoute#>)
+        
+        let busServiceRoute = BusServiceRoute(context : context)
+        busServiceRoute.hasStops?.array[0]
+        
+        busStop.formsRoute?.allObjects
+        */
         //grab all bus service numbers
         //query each bus service
         //for each route
         //for each bus stop number in the service
-        //query again for the bus stop object with said number
-        //create a bus stop object if it does not exist, and then add the bus stop object to the bus service route's list
-        //save into core data
-        //using relationships, should be able to view the route of bus stops for a particular service
-        //should be able to view the bus services of a particular bus stop
+        //busStop.addToServiceRoutes(serviceRoute)
+        //busServiceRoutes.addToBusStop(busStop)
+        
+        
         
         
         

@@ -2,12 +2,12 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17C88" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BusService" representedClassName="BusService" syncable="YES" codeGenerationType="class">
         <attribute name="svcNo" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="hasRoutes" optional="YES" toMany="YES" minCount="1" maxCount="2" deletionRule="Nullify" ordered="YES" destinationEntity="BusServiceRoute" inverseName="hasService" inverseEntity="BusServiceRoute" syncable="YES"/>
+        <relationship name="hasRoutes" optional="YES" toMany="YES" minCount="1" maxCount="2" deletionRule="Deny" ordered="YES" destinationEntity="BusServiceRoute" inverseName="hasService" inverseEntity="BusServiceRoute" syncable="YES"/>
     </entity>
     <entity name="BusServiceRoute" representedClassName="BusServiceRoute" syncable="YES" codeGenerationType="class">
         <attribute name="routeNo" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="hasService" maxCount="1" deletionRule="Nullify" destinationEntity="BusService" inverseName="hasRoutes" inverseEntity="BusService" syncable="YES"/>
-        <relationship name="hasStops" toMany="YES" minCount="1" deletionRule="Nullify" ordered="YES" destinationEntity="BusStop" inverseName="formsRoute" inverseEntity="BusStop" syncable="YES"/>
+        <relationship name="hasService" maxCount="1" deletionRule="No Action" destinationEntity="BusService" inverseName="hasRoutes" inverseEntity="BusService" syncable="YES"/>
+        <relationship name="hasStops" toMany="YES" minCount="1" deletionRule="No Action" ordered="YES" destinationEntity="BusStop" inverseName="formsRoute" inverseEntity="BusStop" syncable="YES"/>
     </entity>
     <entity name="BusStop" representedClassName="BusStop" syncable="YES" codeGenerationType="class">
         <attribute name="latitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -17,8 +17,8 @@
         <relationship name="formsRoute" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BusServiceRoute" inverseName="hasStops" inverseEntity="BusServiceRoute" syncable="YES"/>
     </entity>
     <elements>
-        <element name="BusService" positionX="-4455" positionY="-3691" width="128" height="73"/>
-        <element name="BusServiceRoute" positionX="-4437" positionY="-3582" width="128" height="88"/>
+        <element name="BusService" positionX="-4529" positionY="-3709" width="128" height="73"/>
+        <element name="BusServiceRoute" positionX="-4527" positionY="-3582" width="128" height="88"/>
         <element name="BusStop" positionX="-4520" positionY="-3438" width="128" height="118"/>
     </elements>
 </model>
