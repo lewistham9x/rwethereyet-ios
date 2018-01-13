@@ -13,8 +13,8 @@ import ObjectMapper
 
 class RouteBusStop: Mappable {
     var stopNo:String?
-    var latitude: String?
-    var longitude: String?
+    var latitude: String = ""
+    var longitude: String = ""
     var name: String?
     
     required init?(map: Map){

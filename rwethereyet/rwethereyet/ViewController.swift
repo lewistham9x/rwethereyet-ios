@@ -67,6 +67,9 @@ class ViewController: UIViewController {
             }
         }
         
+        initBusServiceData(svcNo: "74")
+        
+        //initialise Bus Services
         
         
         
@@ -90,12 +93,73 @@ class ViewController: UIViewController {
         //busServiceRoutes.addToBusStop(busStop)
     }
     
+    
     @IBAction func btPrintStops(_ sender: Any)
     {
         printStopNames()
     }
     @IBAction func btResetCoreData(_ sender: Any) {
         resetBusData()
+    }
+    
+    func initBusServiceData(svcNo: String)
+    {
+        let context = self.appDelegate.persistentContainer.viewContext
+        
+        let busServiceURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-services/" + svcNo + ".json"
+        Alamofire.request(busServiceURL).responseObject { (response: DataResponse<RouteBusServiceResponse>) in
+            
+            let busSvcResponse = response.result.value
+            print((busSvcResponse?.route1![0])!+"<<<<<<")
+            
+            //create BusService object in CoreData
+            let busService = BusService(context : context)
+            busService.svcNo=svcNo
+            
+            
+            if (busSvcResponse?.route1![0] != "") //check if route exists
+            {
+                //create bus service route
+                let busServiceRoute = BusServiceRoute(context : context)
+                busServiceRoute.routeNo = 1
+                
+                //relate bus service route to bus service
+                busService.addToHasRoute(busServiceRoute) //adds routes to service
+                
+                busServiceRoute.fromService(busService)
+                
+                //relate bus service route to bus stops
+                for stopNo in (busSvcResponse?.route1!)!
+                {
+                    do
+                    {
+                        let result = try context.fetch(BusStop.fetchRequest())
+                        
+                        let stops = result as! [BusStop]
+                        
+                        for stop in stops //relate bus stop object to service accordingly
+                        {
+                            if (stopNo == stop.stopNo!)
+                            {
+                                
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        print("Error")
+                    }
+                }
+                
+            }
+            
+            
+            for stopNo in (busSvcResponse?.route2)!
+            {
+                
+            }
+            
+        }
     }
     
     func printStopNames()
