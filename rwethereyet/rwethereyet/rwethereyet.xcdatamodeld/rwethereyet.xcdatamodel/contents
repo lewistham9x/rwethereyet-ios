@@ -10,15 +10,15 @@
         <relationship name="hasStops" toMany="YES" minCount="1" deletionRule="No Action" ordered="YES" destinationEntity="BusStop" inverseName="formsRoute" inverseEntity="BusStop" syncable="YES"/>
     </entity>
     <entity name="BusStop" representedClassName="BusStop" syncable="YES" codeGenerationType="class">
-        <attribute name="latitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="longitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="latitude" attributeType="String" syncable="YES"/>
+        <attribute name="longitude" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <attribute name="stopNo" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="stopNo" attributeType="String" syncable="YES"/>
         <relationship name="formsRoute" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BusServiceRoute" inverseName="hasStops" inverseEntity="BusServiceRoute" syncable="YES"/>
     </entity>
     <elements>
         <element name="BusService" positionX="-4529" positionY="-3709" width="128" height="73"/>
         <element name="BusServiceRoute" positionX="-4527" positionY="-3582" width="128" height="88"/>
-        <element name="BusStop" positionX="-4520" positionY="-3438" width="128" height="118"/>
+        <element name="BusStop" positionX="-4520" positionY="-3438" width="128" height="120"/>
     </elements>
 </model>
