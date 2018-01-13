@@ -112,21 +112,13 @@ class ViewController: UIViewController {
             let busSvcResponse = response.result.value
             print((busSvcResponse?.route1![0])!+"<<<<<<")
             
-            //create BusService object in CoreData
-            let busService = BusService(context : context)
-            busService.svcNo=svcNo
-            
-            
-            if (busSvcResponse?.route1![0] != "") //check if route exists
+            /*
+            if (busSvcResponse?.route1!.count != 0) //check if route exists
             {
                 //create bus service route
                 let busServiceRoute = BusServiceRoute(context : context)
+                busServiceRoute.svcNo=svcNo
                 busServiceRoute.routeNo = 1
-                
-                //relate bus service route to bus service
-                busService.addToHasRoute(busServiceRoute) //adds routes to service
-                
-                busServiceRoute.fromService(busService) //associates bus service to route
                 
                 //relate bus service route to bus stops
                 for stopNo in (busSvcResponse?.route1!)!
@@ -153,14 +145,44 @@ class ViewController: UIViewController {
                     }
                 }
                 
+                self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
             }
             
-            
-            for stopNo in (busSvcResponse?.route2)!
+            if (busSvcResponse?.route2!.count != 0) //check if route exists
             {
+                //create bus service route
+                let busServiceRoute = BusServiceRoute(context : context)
+                busServiceRoute.svcNo=svcNo
+                busServiceRoute.routeNo = 2
                 
+                
+                //relate bus service route to bus stops
+                for stopNo in (busSvcResponse?.route1!)!
+                {
+                    do
+                    {
+                        let result = try context.fetch(BusStop.fetchRequest())
+                        
+                        let stops = result as! [BusStop]
+                        
+                        for stop in stops //relate bus stop object to service accordingly
+                        {
+                            if (stopNo == stop.stopNo!)
+                            {
+                                busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
+                                stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
+                                
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        print("Error")
+                    }
+                }
+                self.appDelegate.saveContext()
             }
-            
+           */
         }
     }
     
