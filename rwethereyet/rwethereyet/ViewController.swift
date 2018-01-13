@@ -183,7 +183,7 @@ class ViewController: UIViewController {
                 self.appDelegate.saveContext()
             }
             
-            printRoute(svcNo: "74", routeNo: 1)()
+            self.printRoute(svcNo: "74", routeNo: 1)
         }
     }
     
