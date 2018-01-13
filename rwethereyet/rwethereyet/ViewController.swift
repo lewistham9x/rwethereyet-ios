@@ -112,7 +112,7 @@ class ViewController: UIViewController {
             let busSvcResponse = response.result.value
             print((busSvcResponse?.route1![0])!+"<<<<<<")
             
-            /*
+            
             if (busSvcResponse?.route1!.count != 0) //check if route exists
             {
                 //create bus service route
@@ -182,7 +182,8 @@ class ViewController: UIViewController {
                 }
                 self.appDelegate.saveContext()
             }
-           */
+            
+            printRoute(svcNo: "74", routeNo: 1)()
         }
     }
     
@@ -204,6 +205,37 @@ class ViewController: UIViewController {
         {
             print("Error")
         }
+    }
+    
+    func printRoute(svcNo: String, routeNo: Int16)
+    {
+        let context = self.appDelegate.persistentContainer.viewContext
+        
+        do
+        {
+            let result = try context.fetch(BusServiceRoute.fetchRequest())
+            
+            let routes = result as! [BusServiceRoute]
+            
+            for route in routes{
+                if (route.svcNo == svcNo)
+                {
+                    if (route.routeNo == routeNo)
+                    {
+                        let stops = route.hasStops?.array as! [BusStop]
+                        
+                        for stop in stops {
+                            print(stop.name!) //! used to remove Optional()
+                        }
+                    }
+                }
+            }
+        }
+        catch
+        {
+            print("Error")
+        }
+
     }
     
     func resetBusData()
