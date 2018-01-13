@@ -34,20 +34,60 @@ class ViewController: UIViewController {
         //initialise and create all bus stops
         
         let busStopsURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-stops.json" //"https://busrouter.sg/data/2/bus-stops.json"
+        
         print(busStopsURL)
+        
+        
+        /*
+        let context = self.appDelegate.persistentContainer.viewContext
+
+        
+        //need to clear all data temporarily so no duplicates will be saved
+        do{
+            let result = try context.fetch(BusStop.fetchRequest())
+            var busStops = result as! [BusStop]
+            busStops.removeAll() //clears
+        }
+        catch{
+            print("lol u suck")
+        }
+        */
+        
+        
         Alamofire.request(busStopsURL).responseArray { (response: DataResponse<[RouteBusStop]>) in
             
             let routeBusStopArray = response.result.value
             
+            
             if let routeBusStopArray =  routeBusStopArray {
                 
-                //let busStopArray =
-                //let busStop = BusStop(context : context)
+                let context = self.appDelegate.persistentContainer.viewContext
+                let busStop = BusStop(context : context)
                 
                 for routeStop in routeBusStopArray {
                     //busStop.latitude = routeStop.latitude
-                    print(routeStop.name)
+                    print(routeStop.stopNo)
+                    /*
+                    busStop.latitude = Float(routeStop.latitude)!
+                    busStop.longitude = Float(routeStop.longitude)!
+                    busStop.name = routeStop.name
+                    busStop.stopNo = routeStop.stopNo
+
+                    self.appDelegate.saveContext() //save Bus Stop to CoreData*/
                 }
+                
+                
+                
+                var test = routeBusStopArray[0]
+        
+                busStop.latitude = Float(test.latitude)!
+                busStop.longitude = Float(test.longitude)!
+                busStop.name=test.name
+                busStop.stopNo=test.stopNo
+                
+                print(String(busStop.latitude)+"hi")
+                
+                self.appDelegate.saveContext()
             }
         }
         
@@ -81,7 +121,6 @@ class ViewController: UIViewController {
         
         
         
-        //need to clear all data temporarily so no duplicates will be saved
         
     }
 }
