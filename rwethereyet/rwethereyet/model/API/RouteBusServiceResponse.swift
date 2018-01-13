@@ -12,16 +12,17 @@ import ObjectMapper
 //map API json  to RouteBusStop objects, to add into CoreData as BusStop objects later
 
 class RouteBusServiceResponse: Mappable {
-    var route1: RouteBusServiceRouteResponse?
-    var route2: RouteBusServiceRouteResponse?
+    var route1: [String]?
+    var route2: [String]?
     
     required init?(map: Map){
         
     }
     
+    //https://github.com/tristanhimmelman/AlamofireObjectMapper#easy-mapping-of-nested-objects
     func mapping(map: Map) {
-        route1 <- map["1"]
-        route2 <- map["2"]
+        route1 <- map["1.stops"]
+        route2 <- map["2.stops"]
     }
 }
 

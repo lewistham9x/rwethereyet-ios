@@ -65,8 +65,10 @@ class ViewController: UIViewController {
                 print("Attempting to grab data again")
                 self.initBusData()
             }
-            
         }
+        
+        
+        
         
         /*
         let busStop = BusStop(context : context)
