@@ -35,23 +35,10 @@ class ViewController: UIViewController {
         
         let busStopsURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-stops.json" //"https://busrouter.sg/data/2/bus-stops.json"
         
+        let context = self.appDelegate.persistentContainer.viewContext
+        
         print(busStopsURL)
         
-        
-        /*
-        let context = self.appDelegate.persistentContainer.viewContext
-
-        
-        //need to clear all data temporarily so no duplicates will be saved
-        do{
-            let result = try context.fetch(BusStop.fetchRequest())
-            var busStops = result as! [BusStop]
-            busStops.removeAll() //clears
-        }
-        catch{
-            print("lol u suck")
-        }
-        */
         
         
         Alamofire.request(busStopsURL).responseArray { (response: DataResponse<[RouteBusStop]>) in
@@ -61,23 +48,21 @@ class ViewController: UIViewController {
             
             if let routeBusStopArray =  routeBusStopArray {
                 
-                let context = self.appDelegate.persistentContainer.viewContext
-                let busStop = BusStop(context : context)
                 
                 for routeStop in routeBusStopArray {
                     //busStop.latitude = routeStop.latitude
                     print(routeStop.stopNo)
-                    /*
+                    
+                    let busStop = BusStop(context : context)
                     busStop.latitude = Float(routeStop.latitude)!
                     busStop.longitude = Float(routeStop.longitude)!
                     busStop.name = routeStop.name
                     busStop.stopNo = routeStop.stopNo
 
-                    self.appDelegate.saveContext() //save Bus Stop to CoreData*/
+                    self.appDelegate.saveContext() //save Bus Stop to CoreData
                 }
                 
-                
-                
+                /*
                 var test = routeBusStopArray[0]
         
                 busStop.latitude = Float(test.latitude)!
@@ -88,21 +73,16 @@ class ViewController: UIViewController {
                 print(String(busStop.latitude)+"hi")
                 
                 self.appDelegate.saveContext()
+                */
+ 
             }
         }
-        
-        
-        
-        
         
         /*
         let busStop = BusStop(context : context)
         busStop.stopNo = "0"
         
-        */
-        //https://github.com/tristanhimmelman/AlamofireObjectMapper
-        
-        /*
+         
         busStop.addToFormsRoute(<#T##value: BusServiceRoute##BusServiceRoute#>)
         
         let busServiceRoute = BusServiceRoute(context : context)
@@ -116,12 +96,59 @@ class ViewController: UIViewController {
         //for each bus stop number in the service
         //busStop.addToServiceRoutes(serviceRoute)
         //busServiceRoutes.addToBusStop(busStop)
-        
-        
-        
-        
-        
-        
+    }
+    
+    @IBAction func btPrintStops(_ sender: Any)
+    {
+        printStopNames()
+    }
+    @IBAction func btResetCoreData(_ sender: Any) {
+        resetBusStopCoreData()
+    }
+    
+    func printStopNames()
+    {
+        let context = self.appDelegate.persistentContainer.viewContext
+
+        do
+        {
+            let result = try context.fetch(BusStop.fetchRequest())
+            
+            let stops = result as! [BusStop]
+            
+            for stop in stops {
+                print(stop.name!) //! used to remove Optional()
+            }
+        }
+        catch
+        {
+            print("Error")
+        }
+    }
+    
+    func resetBusStopCoreData()
+    {
+        let context = self.appDelegate.persistentContainer.viewContext
+         
+         
+        //need to clear all data temporarily so no duplicates will be saved
+        do
+        {
+            let result = try context.fetch(BusStop.fetchRequest())
+            var busStops = result as! [BusStop]
+            for stop in busStops
+            {
+                context.delete(stop)
+            }
+            
+            try context.save()
+
+            print("Bus Stops reset")
+        }
+        catch
+        {
+            print("Error")
+        }
     }
 }
 
