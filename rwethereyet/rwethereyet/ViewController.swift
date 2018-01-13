@@ -126,7 +126,7 @@ class ViewController: UIViewController {
                 //relate bus service route to bus service
                 busService.addToHasRoute(busServiceRoute) //adds routes to service
                 
-                busServiceRoute.fromService(busService)
+                busServiceRoute.fromService(busService) //associates bus service to route
                 
                 //relate bus service route to bus stops
                 for stopNo in (busSvcResponse?.route1!)!
@@ -141,6 +141,8 @@ class ViewController: UIViewController {
                         {
                             if (stopNo == stop.stopNo!)
                             {
+                                busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
+                                stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
                                 
                             }
                         }

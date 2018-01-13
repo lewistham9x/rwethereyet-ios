@@ -7,14 +7,14 @@
     <entity name="BusServiceRoute" representedClassName="BusServiceRoute" syncable="YES" codeGenerationType="class">
         <attribute name="routeNo" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="fromService" maxCount="1" deletionRule="No Action" destinationEntity="BusService" inverseName="hasRoute" inverseEntity="BusService" syncable="YES"/>
-        <relationship name="hasStops" toMany="YES" minCount="1" deletionRule="No Action" ordered="YES" destinationEntity="BusStop" inverseName="formsRoute" inverseEntity="BusStop" syncable="YES"/>
+        <relationship name="hasStops" toMany="YES" minCount="1" deletionRule="No Action" ordered="YES" destinationEntity="BusStop" inverseName="hasServicesRoute" inverseEntity="BusStop" syncable="YES"/>
     </entity>
     <entity name="BusStop" representedClassName="BusStop" syncable="YES" codeGenerationType="class">
         <attribute name="latitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="longitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="stopNo" attributeType="String" syncable="YES"/>
-        <relationship name="formsRoute" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BusServiceRoute" inverseName="hasStops" inverseEntity="BusServiceRoute" syncable="YES"/>
+        <relationship name="hasServicesRoute" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BusServiceRoute" inverseName="hasStops" inverseEntity="BusServiceRoute" syncable="YES"/>
     </entity>
     <elements>
         <element name="BusService" positionX="-4529" positionY="-3709" width="128" height="75"/>
