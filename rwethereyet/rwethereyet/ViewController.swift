@@ -11,15 +11,16 @@ import Alamofire
 import AlamofireObjectMapper
 
 class ViewController: UIViewController {
-
+    
     let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        resetBusData()
         initBusData()
-        
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,10 +28,9 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    
-    
-    func initBusData(){ //must change to run somewhereinside appdelegate thing to update or save all bus api data into coredata
-        //let context = self.appDelegate.persistentContainer.viewContext
+   
+    func initBusData()
+    { //must change to run somewhereinside appdelegate thing to update or save all bus api data into coredata
         //initialise and create all bus stops
         
         let busStopsURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-stops.json" //"https://busrouter.sg/data/2/bus-stops.json"
@@ -39,43 +39,33 @@ class ViewController: UIViewController {
         
         print(busStopsURL)
         
-        
-        
         Alamofire.request(busStopsURL).responseArray { (response: DataResponse<[RouteBusStop]>) in
             
             let routeBusStopArray = response.result.value
             
-            
-            if let routeBusStopArray =  routeBusStopArray {
-                
-                
-                for routeStop in routeBusStopArray {
-                    //busStop.latitude = routeStop.latitude
-                    print(routeStop.stopNo)
+            if (response.result.isSuccess)
+            {
+                if let routeBusStopArray =  routeBusStopArray {
                     
-                    let busStop = BusStop(context : context)
-                    busStop.latitude = Float(routeStop.latitude)!
-                    busStop.longitude = Float(routeStop.longitude)!
-                    busStop.name = routeStop.name
-                    busStop.stopNo = routeStop.stopNo
-
-                    self.appDelegate.saveContext() //save Bus Stop to CoreData
+                    for routeStop in routeBusStopArray {
+                        let busStop = BusStop(context : context)
+                        busStop.latitude = Float(routeStop.latitude)!
+                        busStop.longitude = Float(routeStop.longitude)!
+                        busStop.name = routeStop.name
+                        busStop.stopNo = routeStop.stopNo
+                        
+                        self.appDelegate.saveContext() //save Bus Stop to CoreData
+                        
+                        print(busStop.stopNo!) //DEBUG
+                    }
                 }
-                
-                /*
-                var test = routeBusStopArray[0]
-        
-                busStop.latitude = Float(test.latitude)!
-                busStop.longitude = Float(test.longitude)!
-                busStop.name=test.name
-                busStop.stopNo=test.stopNo
-                
-                print(String(busStop.latitude)+"hi")
-                
-                self.appDelegate.saveContext()
-                */
- 
             }
+            else
+            {
+                print("Attempting to grab data again")
+                self.initBusData()
+            }
+            
         }
         
         /*
@@ -103,7 +93,7 @@ class ViewController: UIViewController {
         printStopNames()
     }
     @IBAction func btResetCoreData(_ sender: Any) {
-        resetBusStopCoreData()
+        resetBusData()
     }
     
     func printStopNames()
@@ -126,7 +116,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func resetBusStopCoreData()
+    func resetBusData()
     {
         let context = self.appDelegate.persistentContainer.viewContext
          

@@ -16,6 +16,8 @@
 		1DA257792003732C00F8CA36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DA257772003732C00F8CA36 /* LaunchScreen.storyboard */; };
 		1DA257842003732C00F8CA36 /* rwethereyetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA257832003732C00F8CA36 /* rwethereyetTests.swift */; };
 		1DA2578F2003732C00F8CA36 /* rwethereyetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2578E2003732C00F8CA36 /* rwethereyetUITests.swift */; };
+		1DFF4D11200A44C40076B333 /* RouteBusServiceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFF4D10200A44C40076B333 /* RouteBusServiceResponse.swift */; };
+		1DFF4D13200A48080076B333 /* RouteBusServiceRouteResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFF4D12200A48080076B333 /* RouteBusServiceRouteResponse.swift */; };
 		4579553FFA039F933DB3DDE7 /* Pods_rwethereyetUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7368FC86E84AEE44ED54C01 /* Pods_rwethereyetUITests.framework */; };
 		6ABB84E29EEA786D8DF5A812 /* Pods_rwethereyet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586150FFBB5E056C980DF67 /* Pods_rwethereyet.framework */; };
 		B231CA45E5D4DF631C82AC71 /* Pods_rwethereyetTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 111D5A6333562F3E36DC5971 /* Pods_rwethereyetTests.framework */; };
@@ -56,6 +58,8 @@
 		1DA2578A2003732C00F8CA36 /* rwethereyetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rwethereyetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DA2578E2003732C00F8CA36 /* rwethereyetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rwethereyetUITests.swift; sourceTree = "<group>"; };
 		1DA257902003732C00F8CA36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1DFF4D10200A44C40076B333 /* RouteBusServiceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteBusServiceResponse.swift; path = rwethereyet/model/API/RouteBusServiceResponse.swift; sourceTree = "<group>"; };
+		1DFF4D12200A48080076B333 /* RouteBusServiceRouteResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteBusServiceRouteResponse.swift; path = rwethereyet/model/API/RouteBusServiceRouteResponse.swift; sourceTree = "<group>"; };
 		2EEA5985D8CA8CC925E24C2D /* Pods-rwethereyetUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rwethereyetUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-rwethereyetUITests/Pods-rwethereyetUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3B281EEC20E012C2A134503E /* Pods-rwethereyet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rwethereyet.release.xcconfig"; path = "Pods/Target Support Files/Pods-rwethereyet/Pods-rwethereyet.release.xcconfig"; sourceTree = "<group>"; };
 		4586150FFBB5E056C980DF67 /* Pods_rwethereyet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rwethereyet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +100,8 @@
 		1DA2575F2003732C00F8CA36 = {
 			isa = PBXGroup;
 			children = (
+				1DFF4D10200A44C40076B333 /* RouteBusServiceResponse.swift */,
+				1DFF4D12200A48080076B333 /* RouteBusServiceRouteResponse.swift */,
 				1D09D7F52009B9D3006D079D /* RouteBusStop.swift */,
 				1DA2576A2003732C00F8CA36 /* rwethereyet */,
 				1DA257822003732C00F8CA36 /* rwethereyetTests */,
@@ -469,9 +475,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D09D7F62009B9D3006D079D /* RouteBusStop.swift in Sources */,
+				1DFF4D13200A48080076B333 /* RouteBusServiceRouteResponse.swift in Sources */,
 				1DA2576E2003732C00F8CA36 /* ViewController.swift in Sources */,
 				1DA2576C2003732C00F8CA36 /* AppDelegate.swift in Sources */,
 				1DA257742003732C00F8CA36 /* rwethereyet.xcdatamodeld in Sources */,
+				1DFF4D11200A44C40076B333 /* RouteBusServiceResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
