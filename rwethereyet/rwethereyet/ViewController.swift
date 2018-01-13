@@ -60,19 +60,51 @@ class ViewController: UIViewController {
                     }
                 }
             }
+            /*
             else
             {
                 print("Attempting to grab data again")
                 self.initBusData()
             }
+            */
         }
         
-        initBusServiceData(svcNo: "74")
         
-        //initialise Bus Services
+        //initialise All Bus Services
+        //initBusServiceData(svcNo: "74", routeCount: 1)
         
         
         
+        /*
+        
+        
+        let busSvcsURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-services.json"
+        
+        Alamofire.request(busSvcsURL).responseArray { (response: DataResponse<[RouteBusService]>) in
+            
+            let routeBusServiceArray = response.result.value
+            
+            if (response.result.isSuccess)
+            {
+                if let routeBusServiceArray =  routeBusServiceArray {
+                    
+                    for routeSvc in routeBusServiceArray {
+                        self.initBusServiceData(svcNo: routeSvc.svcNo!, routeCount: routeSvc.routeCount!)
+                    }
+                }
+            }
+                
+                
+            
+            else{
+                print("Attempting to grab data again")
+                self.initBusData() //????again?
+            }
+ 
+        }
+        
+        */
+ 
         /*
         let busStop = BusStop(context : context)
         busStop.stopNo = "0"
@@ -102,7 +134,13 @@ class ViewController: UIViewController {
         resetBusData()
     }
     
-    func initBusServiceData(svcNo: String)
+    @IBOutlet weak var tbSvc: UITextField!
+    @IBAction func btPrintSvcRoute(_ sender: Any) {
+        printRoute(svcNo: tbSvc.text!, routeNo: 1)
+    }
+    
+    
+    func initBusServiceData(svcNo: String, routeCount: Int16)
     {
         let context = self.appDelegate.persistentContainer.viewContext
         
@@ -112,78 +150,79 @@ class ViewController: UIViewController {
             let busSvcResponse = response.result.value
             print((busSvcResponse?.route1![0])!+"<<<<<<")
             
-            
-            if (busSvcResponse?.route1!.count != 0) //check if route exists
+            if (response.result.isSuccess)
             {
-                //create bus service route
-                let busServiceRoute = BusServiceRoute(context : context)
-                busServiceRoute.svcNo=svcNo
-                busServiceRoute.routeNo = 1
-                
-                //relate bus service route to bus stops
-                for stopNo in (busSvcResponse?.route1!)!
+                if (routeCount > 0) //check if route exists
                 {
-                    do
+                    //create bus service route
+                    let busServiceRoute = BusServiceRoute(context : context)
+                    busServiceRoute.svcNo=svcNo
+                    busServiceRoute.routeNo = 1
+                    
+                    //relate bus service route to bus stops
+                    for stopNo in (busSvcResponse?.route1!)!
                     {
-                        let result = try context.fetch(BusStop.fetchRequest())
-                        
-                        let stops = result as! [BusStop]
-                        
-                        for stop in stops //relate bus stop object to service accordingly
+                        do
                         {
-                            if (stopNo == stop.stopNo!)
+                            let result = try context.fetch(BusStop.fetchRequest())
+                            
+                            let stops = result as! [BusStop]
+                            
+                            for stop in stops //relate bus stop object to service accordingly
                             {
-                                busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
-                                stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
-                                
+                                if (stopNo == stop.stopNo!)
+                                {
+                                    busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
+                                    stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
+                                    
+                                }
                             }
                         }
-                    }
-                    catch
-                    {
-                        print("Error")
-                    }
-                }
-                
-                self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
-            }
-            
-            if (busSvcResponse?.route2!.count != 0) //check if route exists
-            {
-                //create bus service route
-                let busServiceRoute = BusServiceRoute(context : context)
-                busServiceRoute.svcNo=svcNo
-                busServiceRoute.routeNo = 2
-                
-                
-                //relate bus service route to bus stops
-                for stopNo in (busSvcResponse?.route1!)!
-                {
-                    do
-                    {
-                        let result = try context.fetch(BusStop.fetchRequest())
-                        
-                        let stops = result as! [BusStop]
-                        
-                        for stop in stops //relate bus stop object to service accordingly
+                        catch
                         {
-                            if (stopNo == stop.stopNo!)
-                            {
-                                busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
-                                stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
-                                
-                            }
+                            print("Error")
                         }
                     }
-                    catch
-                    {
-                        print("Error")
-                    }
+                    
+                    self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
                 }
-                self.appDelegate.saveContext()
+                
+                if (routeCount == 2) //check if route exists
+                {
+                    //create bus service route
+                    let busServiceRoute = BusServiceRoute(context : context)
+                    busServiceRoute.svcNo=svcNo
+                    busServiceRoute.routeNo = 2
+                    
+                    
+                    //relate bus service route to bus stops
+                    for stopNo in (busSvcResponse?.route1!)!
+                    {
+                        do
+                        {
+                            let result = try context.fetch(BusStop.fetchRequest())
+                            
+                            let stops = result as! [BusStop]
+                            
+                            for stop in stops //relate bus stop object to service accordingly
+                            {
+                                if (stopNo == stop.stopNo!)
+                                {
+                                    busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
+                                    stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
+                                    
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            print("Error")
+                        }
+                    }
+                    self.appDelegate.saveContext()
+                }
             }
-            
-            self.printRoute(svcNo: "74", routeNo: 1)
+            //self.printRoute(svcNo: "74", routeNo: 1)
         }
     }
     
