@@ -46,7 +46,7 @@ class ViewController: UIViewController {
                 
                 for routeStop in routeBusStopArray {
                     //busStop.latitude = routeStop.latitude
-                    print("test")
+                    print(routeStop.name)
                 }
             }
         }
