@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        resetBusData()
+        //resetBusData()// >>SUDDENLY CAUSES A CRASH??? AFTER LAST 3 COMMITS INVOLVING BUS SERVICES
         initBusData()
 
     }
@@ -60,25 +60,13 @@ class ViewController: UIViewController {
                     }
                 }
             }
-            /*
-            else
-            {
-                print("Attempting to grab data again")
-                self.initBusData()
-            }
-            */
         }
         
         
-        //initialise All Bus Services
-        //initBusServiceData(svcNo: "74", routeCount: 1)
-        
-        
-        
-        /*
-        
-        
         let busSvcsURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-services.json"
+        
+        print(busSvcsURL)
+        
         
         Alamofire.request(busSvcsURL).responseArray { (response: DataResponse<[RouteBusService]>) in
             
@@ -86,43 +74,30 @@ class ViewController: UIViewController {
             
             if (response.result.isSuccess)
             {
+                print("SUCC<<<<<")
                 if let routeBusServiceArray =  routeBusServiceArray {
                     
                     for routeSvc in routeBusServiceArray {
-                        self.initBusServiceData(svcNo: routeSvc.svcNo!, routeCount: routeSvc.routeCount!)
+                        print(routeSvc.svcNo!)
+                        //self.initBusServiceData(svcNo: routeSvc.svcNo!, routeCount: routeSvc.routeCount!)
                     }
                 }
             }
-                
-                
-            
             else{
-                print("Attempting to grab data again")
-                self.initBusData() //????again?
+                print("YOU SUCC<<<<<<")
             }
  
         }
+ 
         
-        */
+        
  
         /*
-        let busStop = BusStop(context : context)
-        busStop.stopNo = "0"
-        
-         
-        busStop.addToFormsRoute(<#T##value: BusServiceRoute##BusServiceRoute#>)
-        
         let busServiceRoute = BusServiceRoute(context : context)
         busServiceRoute.hasStops?.array[0]
         
         busStop.formsRoute?.allObjects
         */
-        //grab all bus service numbers
-        //query each bus service
-        //for each route
-        //for each bus stop number in the service
-        //busStop.addToServiceRoutes(serviceRoute)
-        //busServiceRoutes.addToBusStop(busStop)
     }
     
     
