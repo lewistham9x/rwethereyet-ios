@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         
         let context = self.appDelegate.persistentContainer.viewContext
         
-        Swift.print(busStopsURL)
+        print(busStopsURL)
         
         Alamofire.request(busStopsURL).responseArray { (response: DataResponse<[RouteBusStop]>) in
             
@@ -47,7 +47,9 @@ class ViewController: UIViewController {
             {
                 print("Successfully requested for bus stop data")
                 if let routeBusStopArray = routeBusStopArray {
+                    print("Got stop array")
                     for routeStop in routeBusStopArray {
+                        print("Creating CoreData Object for "+routeStop.name!)
                         let busStop = BusStop(context : context)
                         busStop.latitude = Float(routeStop.latitude)!
                         busStop.longitude = Float(routeStop.longitude)!
@@ -55,12 +57,12 @@ class ViewController: UIViewController {
                         busStop.stopNo = routeStop.stopNo
                         
                         self.appDelegate.saveContext() //save Bus Stop to CoreData
-                        
+                        print("Saved the CoreData Object for "+routeStop.name!)
                         //print(busStop.stopNo!) //DEBUG
                     }
                     print("Loaded all bus stops")
                     //initialisation of bus service data MUST occur after bus stops, if not there won't be any bus stops to associate into service.
-                    self.initBusServiceData(svcNo: "74", routeCount: 2)
+                    //self.initBusServiceData(svcNo: "74", routeCount: 2)
                     
                 }
             }
@@ -81,7 +83,10 @@ class ViewController: UIViewController {
          */
     }
     
-    @IBOutlet weak var tbLog: UILabel!
+    
+    @IBAction func btReinitStops(_ sender: Any) {
+        initBusData()
+    }
     
     @IBAction func btPrintStops(_ sender: Any)
     {
@@ -92,7 +97,14 @@ class ViewController: UIViewController {
     }
     
     @IBOutlet weak var tbSvc: UITextField!
+    
+    @IBAction func btGetSvcRoute(_ sender: Any) {
+        print("Get service button clicked")
+        initBusServiceData(svcNo: tbSvc.text!, routeCount: 1)
+    }
+    
     @IBAction func btPrintSvcRoute(_ sender: Any) {
+        print("Print service button clicked")
         printRoute(svcNo: tbSvc.text!, routeNo: 1)
     }
     
@@ -127,7 +139,9 @@ class ViewController: UIViewController {
     }
     
     
-    func initBusServiceData(svcNo: String, routeCount: Int16)
+    func initBusServiceData(svcNo: String, routeCount: Int16)//routecount may have to be checked within here itself, if using method separately. check if .count==0 works instead of relying on getting bus service info<<<<<
+        
+        //MUST ensure that THERE ARE BUS STOPS BEFORE EXECUTING THIS METHOD OR WILL CRASH, DO A CHECK LATER
     {
         let context = self.appDelegate.persistentContainer.viewContext
         
@@ -278,13 +292,13 @@ class ViewController: UIViewController {
     func resetBusData()
     {
         let context = self.appDelegate.persistentContainer.viewContext
-        
-        
         //need to clear all data temporarily so no duplicates will be saved
+        //occasionally bus stops dont reset, have error
         do
         {
             let result = try context.fetch(BusStop.fetchRequest())
             var busStops = result as! [BusStop]
+            
             for stop in busStops
             {
                 context.delete(stop)
@@ -293,6 +307,25 @@ class ViewController: UIViewController {
             try context.save()
             
             print("Bus Stops reset")
+        }
+        catch
+        {
+            print("Error")
+        }
+        
+        do
+        {
+            let result = try context.fetch(BusServiceRoute.fetchRequest())
+            var busSvcs = result as! [BusServiceRoute]
+            
+            for svc in busSvcs
+            {
+                context.delete(svc)
+            }
+            
+            try context.save()
+            
+            print("Bus Services reset")
         }
         catch
         {
