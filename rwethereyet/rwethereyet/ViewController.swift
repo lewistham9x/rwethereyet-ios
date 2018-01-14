@@ -18,17 +18,17 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        //resetBusData()// >>SUDDENLY CAUSES A CRASH??? AFTER LAST 3 COMMITS INVOLVING BUS SERVICES
+        resetBusData()// >>SUDDENLY CAUSES A CRASH??? AFTER LAST 3 COMMITS INVOLVING BUS SERVICES
         initBusData()
-
+        //initBusServiceData(svcNo: "74", routeCount: 2)
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-   
+    
     func initBusData()
     { //must change to run somewhereinside appdelegate thing to update or save all bus api data into coredata
         //initialise and create all bus stops
@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         
         let context = self.appDelegate.persistentContainer.viewContext
         
-        print(busStopsURL)
+        Swift.print(busStopsURL)
         
         Alamofire.request(busStopsURL).responseArray { (response: DataResponse<[RouteBusStop]>) in
             
@@ -45,8 +45,8 @@ class ViewController: UIViewController {
             
             if (response.result.isSuccess)
             {
-                if let routeBusStopArray =  routeBusStopArray {
-                    
+                print("Successfully requested for bus stop data")
+                if let routeBusStopArray = routeBusStopArray {
                     for routeStop in routeBusStopArray {
                         let busStop = BusStop(context : context)
                         busStop.latitude = Float(routeStop.latitude)!
@@ -56,49 +56,32 @@ class ViewController: UIViewController {
                         
                         self.appDelegate.saveContext() //save Bus Stop to CoreData
                         
-                        print(busStop.stopNo!) //DEBUG
+                        //print(busStop.stopNo!) //DEBUG
                     }
-                }
-            }
-        }
-        
-        
-        let busSvcsURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-services.json"
-        
-        print(busSvcsURL)
-        
-        Alamofire.request(busSvcsURL).responseArray(keyPath: "services") { (response: DataResponse<[RouteBusService]>) in
-            
-            let routeBusServiceArray = response.result.value
-            
-            if (response.result.isSuccess)
-            {
-                print("SUCC<<<<<")
-                if let routeBusServiceArray =  routeBusServiceArray {
+                    print("Loaded all bus stops")
+                    //initialisation of bus service data MUST occur after bus stops, if not there won't be any bus stops to associate into service.
+                    self.initBusServiceData(svcNo: "74", routeCount: 2)
                     
-                    for routeSvc in routeBusServiceArray {
-                        print(routeSvc.svcNo!)
-                        //self.initBusServiceData(svcNo: routeSvc.svcNo!, routeCount: routeSvc.routeCount!)
-                    }
                 }
             }
-            else{
-                print("YOU SUCC<<<<<<")
+            else
+            {
+                print("Failed to request bus stop data")
             }
- 
         }
- 
         
         
- 
+        
+        
         /*
-        let busServiceRoute = BusServiceRoute(context : context)
-        busServiceRoute.hasStops?.array[0]
-        
-        busStop.formsRoute?.allObjects
-        */
+         let busServiceRoute = BusServiceRoute(context : context)
+         busServiceRoute.hasStops?.array[0]
+         
+         busStop.formsRoute?.allObjects
+         */
     }
     
+    @IBOutlet weak var tbLog: UILabel!
     
     @IBAction func btPrintStops(_ sender: Any)
     {
@@ -114,6 +97,36 @@ class ViewController: UIViewController {
     }
     
     
+    
+    //TAKES TOO LONG TO INITIALISE, WILL INITIALISE EACH BUS SERVICE INDIVIDUALLY
+    
+    func initAllBusServiceData()
+    {
+        let busSvcsURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-services.json"
+        print(busSvcsURL)
+        Alamofire.request(busSvcsURL).responseArray(keyPath: "services") { (response: DataResponse<[RouteBusService]>) in
+            
+            let routeBusServiceArray = response.result.value
+            
+            if (response.result.isSuccess)
+            {
+                print("Successfully request for bus service list")
+                if let routeBusServiceArray =  routeBusServiceArray {
+                    
+                    for routeSvc in routeBusServiceArray {
+                        //print(routeSvc.svcNo!)
+                        self.initBusServiceData(svcNo: routeSvc.svcNo!, routeCount: routeSvc.routeCount!)
+                    }
+                    print("Loaded all bus services")
+                }
+            }
+            else{
+                print("Failed to request bus service list")
+            }
+        }
+    }
+    
+    
     func initBusServiceData(svcNo: String, routeCount: Int16)
     {
         let context = self.appDelegate.persistentContainer.viewContext
@@ -122,10 +135,10 @@ class ViewController: UIViewController {
         Alamofire.request(busServiceURL).responseObject { (response: DataResponse<RouteBusServiceResponse>) in
             
             let busSvcResponse = response.result.value
-            print((busSvcResponse?.route1![0])!+"<<<<<<")
             
             if (response.result.isSuccess)
             {
+                print("Successfully requested bus service: " + svcNo)
                 if (routeCount > 0) //check if route exists
                 {
                     //create bus service route
@@ -159,6 +172,9 @@ class ViewController: UIViewController {
                     }
                     
                     self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
+                    
+                    print("Loaded route 1 of "+svcNo)
+                    
                 }
                 
                 if (routeCount == 2) //check if route exists
@@ -194,16 +210,24 @@ class ViewController: UIViewController {
                         }
                     }
                     self.appDelegate.saveContext()
+                    print("Loaded route 2 of "+svcNo)
+                    
                 }
+                /*
+                 print(svcNo+"'s first route\n––––––––––––––")
+                 self.printRoute(svcNo: svcNo, routeNo: 1)
+                 */
             }
-            //self.printRoute(svcNo: "74", routeNo: 1)
+            else{
+                print("Failed to request bus service: "+svcNo)
+            }
         }
     }
     
     func printStopNames()
     {
         let context = self.appDelegate.persistentContainer.viewContext
-
+        
         do
         {
             let result = try context.fetch(BusStop.fetchRequest())
@@ -248,14 +272,14 @@ class ViewController: UIViewController {
         {
             print("Error")
         }
-
+        
     }
     
     func resetBusData()
     {
         let context = self.appDelegate.persistentContainer.viewContext
-         
-         
+        
+        
         //need to clear all data temporarily so no duplicates will be saved
         do
         {
@@ -267,7 +291,7 @@ class ViewController: UIViewController {
             }
             
             try context.save()
-
+            
             print("Bus Stops reset")
         }
         catch
