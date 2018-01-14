@@ -33,6 +33,8 @@ class ViewController: UIViewController {
     { //must change to run somewhereinside appdelegate thing to update or save all bus api data into coredata
         //initialise and create all bus stops
         
+        //must ensure that this is only initialised once, if not bus service routes when created will have duplicate stops too
+        
         let busStopsURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-stops.json" //"https://busrouter.sg/data/2/bus-stops.json"
         
         let context = self.appDelegate.persistentContainer.viewContext
@@ -156,7 +158,7 @@ class ViewController: UIViewController {
                 if (routeCount > 0) //check if route exists
                 {
                     //create bus service route
-                    let busServiceRoute = BusServiceRoute(context : context)
+                    let busServiceRoute = BusServiceRoute(context : context) //need to prevent duplicates later <<<<
                     busServiceRoute.svcNo=svcNo
                     busServiceRoute.routeNo = 1
                     
@@ -175,7 +177,7 @@ class ViewController: UIViewController {
                                 {
                                     busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
                                     stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
-                                    
+                                    break //prevent duplicate stops in bus service route
                                 }
                             }
                         }
@@ -194,13 +196,13 @@ class ViewController: UIViewController {
                 if (routeCount == 2) //check if route exists
                 {
                     //create bus service route
-                    let busServiceRoute = BusServiceRoute(context : context)
+                    let busServiceRoute = BusServiceRoute(context : context) //need to prevent duplicates later<<<<<
                     busServiceRoute.svcNo=svcNo
                     busServiceRoute.routeNo = 2
                     
                     
                     //relate bus service route to bus stops
-                    for stopNo in (busSvcResponse?.route1!)!
+                    for stopNo in (busSvcResponse?.route2!)!
                     {
                         do
                         {
@@ -215,6 +217,7 @@ class ViewController: UIViewController {
                                     busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
                                     stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
                                     
+                                    break//prevent duplicate stops in bus service route
                                 }
                             }
                         }
@@ -251,6 +254,8 @@ class ViewController: UIViewController {
             for stop in stops {
                 print(stop.name!) //! used to remove Optional()
             }
+            
+            print(String(stops.count)+" stops")
         }
         catch
         {
@@ -278,6 +283,7 @@ class ViewController: UIViewController {
                         for stop in stops {
                             print(stop.name!) //! used to remove Optional()
                         }
+                        break //prevent multiple printing of multiple services
                     }
                 }
             }
