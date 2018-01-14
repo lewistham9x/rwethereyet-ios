@@ -67,8 +67,7 @@ class ViewController: UIViewController {
         
         print(busSvcsURL)
         
-        
-        Alamofire.request(busSvcsURL).responseArray { (response: DataResponse<[RouteBusService]>) in
+        Alamofire.request(busSvcsURL).responseArray(keyPath: "services") { (response: DataResponse<[RouteBusService]>) in
             
             let routeBusServiceArray = response.result.value
             
