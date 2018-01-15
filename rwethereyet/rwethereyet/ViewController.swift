@@ -18,8 +18,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        resetBusData()// >>SUDDENLY CAUSES A CRASH??? AFTER LAST 3 COMMITS INVOLVING BUS SERVICES
-        initBusData()
+        //resetBusData()// >>SUDDENLY CAUSES A CRASH??? AFTER LAST 3 COMMITS INVOLVING BUS SERVICES
+        //initBusData()
         //initBusServiceData(svcNo: "74", routeCount: 2)
         
     }
@@ -43,6 +43,43 @@ class ViewController: UIViewController {
         
         print(busStopsURL)
         
+        
+        guard let url = URL(string: busStopsURL) else {return}
+        let task = URLSession.shared.dataTask(with: url) { (data, res, err) in
+            DispatchQueue.main.async{
+                let status = (res as! HTTPURLResponse).statusCode
+                print("response status: \(status)")
+                do {
+                    let jsonDecoder = JSONDecoder()
+                    let responseModel = try jsonDecoder.decode([RouteBusStop.Base].self, from: data!)
+                    
+                    let routeBusStopArray = responseModel
+                    print("Got stop array")
+                    for routeStop in routeBusStopArray {
+                        //print("Creating CoreData Object for "+routeStop.name!)
+                        
+                        let busStop = BusStop(context : context)
+                        busStop.latitude = Float(routeStop.latitude)!
+                        busStop.longitude = Float(routeStop.longitude)!
+                        busStop.name = routeStop.name
+                        busStop.stopNo = routeStop.stopNo
+                        
+                        self.appDelegate.saveContext() //save Bus Stop to CoreData
+                        //print("Saved the CoreData Object for "+routeStop.name!)
+                        //print(busStop.stopNo!) //DEBUG
+                    }
+                    print(routeBusStopArray.count)
+                    
+                    print("Loaded all bus stops")
+
+                    
+                }
+                catch let jsonErr { print("Failed to request bus stop data", jsonErr)}
+            }
+        }
+        task.resume()
+        
+        /*
         Alamofire.request(busStopsURL).responseArray { (response: DataResponse<[RouteBusStop]>) in
             
             let routeBusStopArray = response.result.value
@@ -80,7 +117,7 @@ class ViewController: UIViewController {
                 print("Failed to request bus stop data")
             }
         }
-        
+        */
         
         
         
