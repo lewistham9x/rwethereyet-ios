@@ -45,6 +45,8 @@ class ViewController: UIViewController {
         
         
         guard let url = URL(string: busStopsURL) else {return}
+        //self.aiLoading.startAnimating() -- not working
+
         let task = URLSession.shared.dataTask(with: url) { (data, res, err) in
             DispatchQueue.main.async{
                 let status = (res as! HTTPURLResponse).statusCode
@@ -55,19 +57,29 @@ class ViewController: UIViewController {
                     
                     let routeBusStopArray = responseModel
                     print("Got stop array")
-                    for routeStop in routeBusStopArray {
-                        //print("Creating CoreData Object for "+routeStop.name!)
+                    
+                    do{
+                        let result = try context.fetch(BusStop.fetchRequest())
+                        var busStopList = result as! [BusStop]
                         
-                        let busStop = BusStop(context : context)
-                        busStop.latitude = Float(routeStop.latitude)!
-                        busStop.longitude = Float(routeStop.longitude)!
-                        busStop.name = routeStop.name
-                        busStop.stopNo = routeStop.stopNo
-                        
+                        for routeStop in routeBusStopArray {
+                            //print("Creating CoreData Object for "+routeStop.name!)
+                            
+                            let busStop = BusStop(context : context)
+                            busStop.latitude = Float(routeStop.latitude)!
+                            busStop.longitude = Float(routeStop.longitude)!
+                            busStop.name = routeStop.name
+                            busStop.stopNo = routeStop.stopNo
+                            
+                            busStopList.append(busStop)
+                            //print("Saved the CoreData Object for "+routeStop.name!)
+                            //print(busStop.stopNo!) //DEBUG
+                        }
                         self.appDelegate.saveContext() //save Bus Stop to CoreData
-                        //print("Saved the CoreData Object for "+routeStop.name!)
-                        //print(busStop.stopNo!) //DEBUG
                     }
+                    
+                    
+
                     print(routeBusStopArray.count)
                     
                     print("Loaded all bus stops")
@@ -78,7 +90,7 @@ class ViewController: UIViewController {
             }
         }
         task.resume()
-        
+
         /*
         Alamofire.request(busStopsURL).responseArray { (response: DataResponse<[RouteBusStop]>) in
             
