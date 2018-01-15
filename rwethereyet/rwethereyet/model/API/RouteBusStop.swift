@@ -35,7 +35,6 @@ enum RouteBusStop {
         }
         
     }
-    
 }
 /*
 class RouteBusStop: Mappable {
