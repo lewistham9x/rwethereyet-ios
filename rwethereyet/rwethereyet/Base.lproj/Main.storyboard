@@ -65,17 +65,22 @@
                                     <action selector="btResetCoreData:" destination="BYZ-38-t0r" eventType="touchUpInside" id="C9e-bf-BGp"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zp3-8S-Nl3">
+                                <rect key="frame" x="197" y="209" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="aiLoading" destination="zp3-8S-Nl3" id="syf-PB-E1W"/>
                         <outlet property="tbSvc" destination="DM4-2F-9E2" id="ufA-n8-BVv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="140" y="132.68365817091455"/>
+            <point key="canvasLocation" x="-290" y="116"/>
         </scene>
     </scenes>
 </document>

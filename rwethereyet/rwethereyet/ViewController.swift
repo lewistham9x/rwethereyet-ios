@@ -29,6 +29,8 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBOutlet weak var aiLoading: UIActivityIndicatorView!
+    
     func initBusData()
     { //must change to run somewhereinside appdelegate thing to update or save all bus api data into coredata
         //initialise and create all bus stops
@@ -47,25 +49,30 @@ class ViewController: UIViewController {
             
             if (response.result.isSuccess)
             {
-                print("Successfully requested for bus stop data")
-                if let routeBusStopArray = routeBusStopArray {
-                    print("Got stop array")
-                    for routeStop in routeBusStopArray {
-                        print("Creating CoreData Object for "+routeStop.name!)
-                        let busStop = BusStop(context : context)
-                        busStop.latitude = Float(routeStop.latitude)!
-                        busStop.longitude = Float(routeStop.longitude)!
-                        busStop.name = routeStop.name
-                        busStop.stopNo = routeStop.stopNo
+                DispatchQueue.main.async{
+                    print("Successfully requested for bus stop data")
+                    self.aiLoading.startAnimating()
+                    if let routeBusStopArray = routeBusStopArray {
+                        print("Got stop array")
+                        for routeStop in routeBusStopArray {
+                            //print("Creating CoreData Object for "+routeStop.name!)
+                            let busStop = BusStop(context : context)
+                            busStop.latitude = Float(routeStop.latitude)!
+                            busStop.longitude = Float(routeStop.longitude)!
+                            busStop.name = routeStop.name
+                            busStop.stopNo = routeStop.stopNo
+                            
+                            self.appDelegate.saveContext() //save Bus Stop to CoreData
+                            //print("Saved the CoreData Object for "+routeStop.name!)
+                            //print(busStop.stopNo!) //DEBUG
+                        }
+                        print(routeBusStopArray.count)
                         
-                        self.appDelegate.saveContext() //save Bus Stop to CoreData
-                        print("Saved the CoreData Object for "+routeStop.name!)
-                        //print(busStop.stopNo!) //DEBUG
+                        print("Loaded all bus stops")
+                        //initialisation of bus service data MUST occur after bus stops, if not there won't be any bus stops to associate into service.
+                        //self.initBusServiceData(svcNo: "74", routeCount: 2)
+                        self.aiLoading.stopAnimating()
                     }
-                    print("Loaded all bus stops")
-                    //initialisation of bus service data MUST occur after bus stops, if not there won't be any bus stops to associate into service.
-                    //self.initBusServiceData(svcNo: "74", routeCount: 2)
-                    
                 }
             }
             else
@@ -154,83 +161,85 @@ class ViewController: UIViewController {
             
             if (response.result.isSuccess)
             {
-                print("Successfully requested bus service: " + svcNo)
-                if (routeCount > 0) //check if route exists
-                {
-                    //create bus service route
-                    let busServiceRoute = BusServiceRoute(context : context) //need to prevent duplicates later <<<<
-                    busServiceRoute.svcNo=svcNo
-                    busServiceRoute.routeNo = 1
-                    
-                    //relate bus service route to bus stops
-                    for stopNo in (busSvcResponse?.route1!)!
+                DispatchQueue.main.async{
+                    print("Successfully requested bus service: " + svcNo)
+                    if (routeCount > 0) //check if route exists
                     {
-                        do
+                        //create bus service route
+                        let busServiceRoute = BusServiceRoute(context : context) //need to prevent duplicates later <<<<
+                        busServiceRoute.svcNo=svcNo
+                        busServiceRoute.routeNo = 1
+                        
+                        //relate bus service route to bus stops
+                        for stopNo in (busSvcResponse?.route1!)!
                         {
-                            let result = try context.fetch(BusStop.fetchRequest())
-                            
-                            let stops = result as! [BusStop]
-                            
-                            for stop in stops //relate bus stop object to service accordingly
+                            do
                             {
-                                if (stopNo == stop.stopNo!)
+                                let result = try context.fetch(BusStop.fetchRequest())
+                                
+                                let stops = result as! [BusStop]
+                                
+                                for stop in stops //relate bus stop object to service accordingly
                                 {
-                                    busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
-                                    stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
-                                    break //prevent duplicate stops in bus service route
+                                    if (stopNo == stop.stopNo!)
+                                    {
+                                        busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
+                                        stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
+                                        break //prevent duplicate stops in bus service route
+                                    }
                                 }
                             }
-                        }
-                        catch
-                        {
-                            print("Error")
-                        }
-                    }
-                    
-                    self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
-                    
-                    print("Loaded route 1 of "+svcNo)
-                    
-                }
-                
-                if (routeCount == 2) //check if route exists
-                {
-                    //create bus service route
-                    let busServiceRoute = BusServiceRoute(context : context) //need to prevent duplicates later<<<<<
-                    busServiceRoute.svcNo=svcNo
-                    busServiceRoute.routeNo = 2
-                    
-                    
-                    //relate bus service route to bus stops
-                    for stopNo in (busSvcResponse?.route2!)!
-                    {
-                        do
-                        {
-                            let result = try context.fetch(BusStop.fetchRequest())
-                            
-                            let stops = result as! [BusStop]
-                            
-                            for stop in stops //relate bus stop object to service accordingly
+                            catch
                             {
-                                if (stopNo == stop.stopNo!)
-                                {
-                                    busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
-                                    stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
-                                    
-                                    break//prevent duplicate stops in bus service route
-                                }
+                                print("Error")
                             }
                         }
-                        catch
-                        {
-                            print("Error")
-                        }
+                        
+                        self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
+                        
+                        print("Loaded route 1 of "+svcNo)
+                        
                     }
-                    self.appDelegate.saveContext()
-                    print("Loaded route 2 of "+svcNo)
                     
+                    if (routeCount == 2) //check if route exists
+                    {
+                        //create bus service route
+                        let busServiceRoute = BusServiceRoute(context : context) //need to prevent duplicates later<<<<<
+                        busServiceRoute.svcNo=svcNo
+                        busServiceRoute.routeNo = 2
+                        
+                        
+                        //relate bus service route to bus stops
+                        for stopNo in (busSvcResponse?.route2!)!
+                        {
+                            do
+                            {
+                                let result = try context.fetch(BusStop.fetchRequest())
+                                
+                                let stops = result as! [BusStop]
+                                
+                                for stop in stops //relate bus stop object to service accordingly
+                                {
+                                    if (stopNo == stop.stopNo!)
+                                    {
+                                        busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
+                                        stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
+                                        
+                                        break//prevent duplicate stops in bus service route
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                print("Error")
+                            }
+                        }
+                        self.appDelegate.saveContext()
+                        print("Loaded route 2 of "+svcNo)
+                        
+                    }
                 }
-                /*
+                                /*
                  print(svcNo+"'s first route\n––––––––––––––")
                  self.printRoute(svcNo: svcNo, routeNo: 1)
                  */
