@@ -160,10 +160,8 @@ class ViewController: UIViewController {
         //MUST ensure that THERE ARE BUS STOPS BEFORE EXECUTING THIS METHOD OR WILL CRASH, DO A CHECK LATER
     {
         let context = self.appDelegate.persistentContainer.viewContext
-        
-        let result = try context.fetch(BusStop.fetchRequest())
-        
-        let stops = result as! [BusStop]
+                
+        let stops = getAllStops()
 
         let busServiceURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-services/" + svcNo + ".json"
 
@@ -176,11 +174,9 @@ class ViewController: UIViewController {
                 print("response status: \(status)")
                 do {
                     let jsonDecoder = JSONDecoder()
-                    let busSvcResponse = try jsonDecoder.decode([RouteBusServiceResponse.Base].self, from: data!)
+                    let busSvcResponse = try jsonDecoder.decode(RouteBusServiceResponse.Base.self, from: data!)
                     
-                    let routeBusStopArray = responseModel
                     print("Successfully requested bus service: " + svcNo)
-                    
                     do{
                         if (routeCount > 0) //check if route exists
                         {
@@ -210,7 +206,7 @@ class ViewController: UIViewController {
                             busServiceRoute.routeNo = 1
                             
                             //relate bus service route to bus stops
-                            for stopNo in (busSvcResponse?.route1!)!
+                            for stopNo in (busSvcResponse.route1!)
                             {
                                 do
                                 {
@@ -234,39 +230,6 @@ class ViewController: UIViewController {
                             
                             print("Loaded route 1 of "+svcNo)
                             
-                        }
-                        
-                        if (routeCount == 2) //check if route exists
-                        {
-                            //create bus service route
-                            let busServiceRoute = BusServiceRoute(context : context) //need to prevent duplicates later<<<<<
-                            busServiceRoute.svcNo=svcNo
-                            busServiceRoute.routeNo = 2
-                            
-                            
-                            //relate bus service route to bus stops
-                            for stopNo in (busSvcResponse?.route2!)!
-                            {
-                                do
-                                {
-                                    for stop in stops //relate bus stop object to service accordingly
-                                    {
-                                        if (stopNo == stop.stopNo!)
-                                        {
-                                            busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
-                                            stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
-                                            
-                                            break//prevent duplicate stops in bus service route
-                                        }
-                                    }
-                                }
-                                catch
-                                {
-                                        print("Error")
-                                }
-                            }
-                            self.appDelegate.saveContext()
-                            print("Loaded route 2 of "+svcNo)
                         }
                     }
                 }
@@ -299,6 +262,23 @@ class ViewController: UIViewController {
         catch
         {
             print("Error")
+        }
+    }
+    
+    func getAllStops() -> [BusStop]
+    {
+        let context = self.appDelegate.persistentContainer.viewContext
+        
+        do
+        {
+            let result = try context.fetch(BusStop.fetchRequest())
+            
+            let stops = result as! [BusStop]
+            
+            return stops
+        }
+        catch{
+            return []
         }
     }
     
