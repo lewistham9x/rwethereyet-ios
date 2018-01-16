@@ -116,7 +116,7 @@ class ViewController: UIViewController {
     
     @IBAction func btGetSvcRoute(_ sender: Any) {
         print("Get service button clicked")
-        initBusServiceData(svcNo: tbSvc.text!, routeCount: 1)
+        initBusServiceData(svcNo: tbSvc.text!)
     }
     
     @IBAction func btPrintSvcRoute(_ sender: Any) {
@@ -143,7 +143,7 @@ class ViewController: UIViewController {
                     
                     for routeSvc in routeBusServiceArray {
                         //print(routeSvc.svcNo!)
-                        self.initBusServiceData(svcNo: routeSvc.svcNo!, routeCount: routeSvc.routeCount!)
+                        self.initBusServiceData(svcNo: routeSvc.svcNo!)
                     }
                     print("Loaded all bus services")
                 }
@@ -155,7 +155,7 @@ class ViewController: UIViewController {
     }
     
     
-    func initBusServiceData(svcNo: String, routeCount: Int16)//routecount may have to be checked within here itself, if using method separately. check if .count==0 works instead of relying on getting bus service info<<<<<
+    func initBusServiceData(svcNo: String)//routecount may have to be checked within here itself, if using method separately. check if .count==0 works instead of relying on getting bus service info<<<<<
         
         //MUST ensure that THERE ARE BUS STOPS BEFORE EXECUTING THIS METHOD OR WILL CRASH, DO A CHECK LATER
     {
@@ -163,7 +163,7 @@ class ViewController: UIViewController {
                 
         let stops = getAllStops()
 
-        let busServiceURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-services/" + svcNo + ".json"
+        let busServiceURL = "https://busrouter.sg/data/2/bus-services/" + svcNo + ".json"
 
         guard let url = URL(string: busServiceURL) else {return}
         //self.aiLoading.startAnimating() -- not working
@@ -175,8 +175,13 @@ class ViewController: UIViewController {
                 do {
                     let jsonDecoder = JSONDecoder()
                     let busSvcResponse = try jsonDecoder.decode(RouteBusServiceResponse.Base.self, from: data!)
+                    //let stops = busSvcResponse.r1?.stops
+                    //print(stops![0])
                     
                     print("Successfully requested bus service: " + svcNo)
+                    print(busSvcResponse.r1?.stops!.count)
+                    
+                    /*
                     do{
                         if (routeCount > 0) //check if route exists
                         {
@@ -220,10 +225,6 @@ class ViewController: UIViewController {
                                         }
                                     }
                                 }
-                                catch
-                                {
-                                    print("Error")
-                                }
                             }
                             
                             self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
@@ -232,6 +233,7 @@ class ViewController: UIViewController {
                             
                         }
                     }
+                    */
                 }
                 catch let jsonErr { print("Failed to request bus stop data", jsonErr)}
             }
