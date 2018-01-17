@@ -30,6 +30,8 @@ class ViewController: UIViewController {
         if (needsUpdate())
         {
             print("Updating database")
+            //if requires update, all methods will run at the same time, causing app to crash
+            //possibly due to many accessingz of coredata ––> need to find a way to separate them
             resetBusData()
             initBusData()
             initAllBusServiceData()
@@ -58,7 +60,7 @@ class ViewController: UIViewController {
                 let b = try context.fetch(BusServiceRoute.fetchRequest())
                 
                 let svcs = b as! [BusServiceRoute]
-                if (svcs.count == 435) //will save last service count to check against in the future, as of now, 435 is the number of bus services
+                if (svcs.count == 561) //will save last service count to check against in the future, as of now, 561 is the number of bus services
                 {
                     return false
                 }
@@ -83,6 +85,8 @@ class ViewController: UIViewController {
         //initialise and create all bus stops
         
         //must ensure that this is only initialised once, if not bus service routes when created will have duplicate stops too
+        
+        resetBusData()
         
         let busStopsURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-stops.json" //"https://busrouter.sg/data/2/bus-stops.json"
         
@@ -409,8 +413,8 @@ class ViewController: UIViewController {
         }
         catch
         {
-            print("Retrying")
-            resetBusData()
+            print("Error")
+            //resetBusData()
         }
         
         do
@@ -429,8 +433,8 @@ class ViewController: UIViewController {
         }
         catch
         {
-            print("Retrying")
-            resetBusData()
+            print("Error")
+            //resetBusData()
         }
     }
 }
