@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import Alamofire
-import AlamofireObjectMapper
 
 class ViewController: UIViewController {
     
@@ -46,7 +44,7 @@ class ViewController: UIViewController {
         
         guard let url = URL(string: busStopsURL) else {return}
         //self.aiLoading.startAnimating() -- not working
-
+        
         let task = URLSession.shared.dataTask(with: url) { (data, res, err) in
             DispatchQueue.main.async{
                 let status = (res as! HTTPURLResponse).statusCode
@@ -80,14 +78,14 @@ class ViewController: UIViewController {
                     print(routeBusStopArray.count)
                     
                     print("Loaded all bus stops")
-
+                    
                     
                 }
                 catch let jsonErr { print("Failed to request bus stop data", jsonErr)}
             }
         }
         task.resume()
-
+        
         /*
          let busServiceRoute = BusServiceRoute(context : context)
          busServiceRoute.hasStops?.array[0]
@@ -111,7 +109,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tbSvc: UITextField!
     @IBAction func btGetAllSvcRoutes(_ sender: Any) {
-        //initAllBusServiceData()
+        initAllBusServiceData()
     }
     
     @IBAction func btGetSvcRoute(_ sender: Any) {
@@ -123,41 +121,48 @@ class ViewController: UIViewController {
         print("Print service button clicked")
         printRoute(svcNo: tbSvc.text!, routeNo: 1)
         printRoute(svcNo: tbSvc.text!, routeNo: 2)
-
+        
     }
     
     
     
     //TAKES TOO LONG TO INITIALISE, WILL INITIALISE EACH BUS SERVICE INDIVIDUALLY
     
-    /*
+    
     func initAllBusServiceData()
     {
         let busSvcsURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-services.json"
         print(busSvcsURL)
-        Alamofire.request(busSvcsURL).responseArray(keyPath: "services") { (response: DataResponse<[RouteBusService]>) in
-            
-            let routeBusServiceArray = response.result.value
-            
-            if (response.result.isSuccess)
-            {
-                print("Successfully request for bus service list")
-                if let routeBusServiceArray =  routeBusServiceArray {
+        
+        guard let url = URL(string: busSvcsURL) else {return}
+        //self.aiLoading.startAnimating() -- not working
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, res, err) in
+            DispatchQueue.main.async{
+                let status = (res as! HTTPURLResponse).statusCode
+                print("response status: \(status)")
+                do {
+                    let jsonDecoder = JSONDecoder()
+                    let routeBusSvcs = try jsonDecoder.decode(RouteBusService.Base.self, from: data!)
+                    print("Got service array")
                     
-                    for routeSvc in routeBusServiceArray {
-                        //print(routeSvc.svcNo!)
+                    let routeBusSvcArray = routeBusSvcs.services
+                    
+                    for routeSvc in routeBusSvcArray! {
                         self.initBusServiceData(svcNo: routeSvc.svcNo!)
+                        print(routeSvc.svcNo!)
                     }
+                    
                     print("Loaded all bus services")
+                    
                 }
-            }
-            else{
-                print("Failed to request bus service list")
+                catch let jsonErr { print("Failed to request bus service data", jsonErr)}
             }
         }
+        task.resume()
     }
     
-    */
+    
     func initBusServiceData(svcNo: String)//routecount may have to be checked within here itself, if using method separately. check if .count==0 works instead of relying on getting bus service info<<<<<
         
         //MUST ensure that THERE ARE BUS STOPS BEFORE EXECUTING THIS METHOD OR WILL CRASH, DO A CHECK LATER
@@ -180,7 +185,7 @@ class ViewController: UIViewController {
                     //initialise bus stop list
                     
                     let result = try context.fetch(BusStop.fetchRequest())
-                        
+                    
                     let stops = result as! [BusStop]
                     
                     
@@ -210,7 +215,7 @@ class ViewController: UIViewController {
                             //create bus service route
                             let busServiceRoute = BusServiceRoute(context : context) //need to prevent duplicates later <<<<
                             busServiceRoute.svcNo=svcNo
-
+                            
                             
                             var routeSvcStops : [String]
                             
@@ -246,10 +251,10 @@ class ViewController: UIViewController {
                             
                             self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
                             print("Loaded route " +  String(i) + " of "+svcNo)
-                        
+                            
                             i = i+1 //increase count
                         }
-                        while (i<=routeCount)
+                            while (i<=routeCount)
                     }
                 }
                 catch let jsonErr { print("Failed to request bus stop data", jsonErr)}
@@ -261,7 +266,7 @@ class ViewController: UIViewController {
          self.printRoute(svcNo: svcNo, routeNo: 1)
          */
     }
-
+    
     func printStopNames()
     {
         let context = self.appDelegate.persistentContainer.viewContext
@@ -327,7 +332,7 @@ class ViewController: UIViewController {
             }
             print("printed route")
             print("––––––––––––––––––––––––––––––––––––––––––––––––")
-
+            
         }
         catch
         {
