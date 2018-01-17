@@ -193,8 +193,11 @@ class ViewController: UIViewController {
                     
                     //count routes for received bus service
                     var routeCount = 0
-                    
-                    if (busSvcResponse.r2?.stops?.count == 0)
+                    if (busSvcResponse.r1?.stops?.count == 0)
+                    {
+                        routeCount = 0 //bus service 969A no crash plz
+                    }
+                    else if (busSvcResponse.r2?.stops?.count == 0)
                     {
                         routeCount = 1
                     }
@@ -209,7 +212,7 @@ class ViewController: UIViewController {
                         
                         var i = 1
                         
-                        repeat
+                        while (i<=routeCount)
                         {
                             //create bus service route
                             let busServiceRoute = BusServiceRoute(context : context) //need to prevent duplicates later <<<<
@@ -250,11 +253,7 @@ class ViewController: UIViewController {
                             
                             i = i+1 //increase count
                         }
-                            
-                            while (i<=routeCount)
-                        
-                        
-                        //self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
+                        self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
                         
                     }
                 }
