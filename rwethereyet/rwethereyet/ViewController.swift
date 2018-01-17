@@ -199,7 +199,7 @@ class ViewController: UIViewController {
                     }
                     else if (busSvcResponse.r2?.stops?.count == 0)
                     {
-                        routeCount = 1
+                    routeCount = 1
                     }
                     else
                     {
