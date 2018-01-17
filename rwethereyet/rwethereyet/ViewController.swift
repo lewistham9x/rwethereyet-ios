@@ -15,16 +15,65 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        //resetBusData()// >>SUDDENLY CAUSES A CRASH??? AFTER LAST 3 COMMITS INVOLVING BUS SERVICES
-        //initBusData()
-        //initBusServiceData(svcNo: "74", routeCount: 2)
+        initData()
         
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    func initData()
+    {
+        if (needsUpdate())
+        {
+            print("Updating database")
+            resetBusData()
+            initBusData()
+            initAllBusServiceData()
+            //print("Database updated")
+
+        }
+        else
+        {
+            print("Database up to date")
+        }
+    }
+    
+    func needsUpdate() -> Bool
+    {
+        //hard code bus service and bus stop count
+        let context = self.appDelegate.persistentContainer.viewContext
+        
+        do
+        {
+            let a = try context.fetch(BusStop.fetchRequest())
+            
+            let stops = a as! [BusStop]
+            
+            if (stops.count == 4856) //will save last stop count to check against in the future, as of now, 4856 is number of bus stops
+            {
+                let b = try context.fetch(BusServiceRoute.fetchRequest())
+                
+                let svcs = b as! [BusServiceRoute]
+                if (svcs.count == 435) //will save last service count to check against in the future, as of now, 435 is the number of bus services
+                {
+                    return false
+                }
+                else{
+                    return true
+                }
+            }
+            else{
+                return true
+            }
+        }
+        catch
+        {
+            return true
+        }
     }
     
     @IBOutlet weak var aiLoading: UIActivityIndicatorView!
@@ -94,41 +143,6 @@ class ViewController: UIViewController {
          */
     }
     
-    
-    @IBAction func btReinitStops(_ sender: Any) {
-        initBusData()
-    }
-    
-    @IBAction func btPrintStops(_ sender: Any)
-    {
-        printStopNames()
-    }
-    @IBAction func btResetCoreData(_ sender: Any) {
-        resetBusData()
-    }
-    
-    @IBOutlet weak var tbSvc: UITextField!
-    @IBAction func btGetAllSvcRoutes(_ sender: Any) {
-        initAllBusServiceData()
-    }
-    
-    @IBAction func btGetSvcRoute(_ sender: Any) {
-        print("Get service button clicked")
-        initBusServiceData(svcNo: tbSvc.text!)
-    }
-    
-    @IBAction func btPrintSvcRoute(_ sender: Any) {
-        print("Print service button clicked")
-        printRoute(svcNo: tbSvc.text!, routeNo: 1)
-        printRoute(svcNo: tbSvc.text!, routeNo: 2)
-        
-    }
-    
-    
-    
-    //TAKES TOO LONG TO INITIALISE, WILL INITIALISE EACH BUS SERVICE INDIVIDUALLY
-    
-    
     func initAllBusServiceData()
     {
         let busSvcsURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-services.json"
@@ -148,11 +162,13 @@ class ViewController: UIViewController {
                     
                     let routeBusSvcArray = routeBusSvcs.services
                     
+                    print(String(describing: routeBusSvcArray?.count))
+                    
                     for routeSvc in routeBusSvcArray! {
                         self.initBusServiceData(svcNo: routeSvc.svcNo!)
                         print(routeSvc.svcNo!)
                     }
-                    self.appDelegate.saveContext()
+                    //self.appDelegate.saveContext()
                     print("Loaded all bus services")
                     
                 }
@@ -199,7 +215,7 @@ class ViewController: UIViewController {
                     }
                     else if (busSvcResponse.r2?.stops?.count == 0)
                     {
-                    routeCount = 1
+                        routeCount = 1
                     }
                     else
                     {
@@ -253,7 +269,7 @@ class ViewController: UIViewController {
                             
                             i = i+1 //increase count
                         }
-                        //self.appDelegate.saveContext()//save context once in the external initall method to optimise loading
+                        self.appDelegate.saveContext()//save context once in the external initall method to optimise loading
                     }
                 }
                 catch let jsonErr { print("Failed to request bus stop data", jsonErr)}
@@ -265,6 +281,38 @@ class ViewController: UIViewController {
          self.printRoute(svcNo: svcNo, routeNo: 1)
          */
     }
+    
+    
+    
+    @IBAction func btReinitStops(_ sender: Any) {
+        initBusData()
+    }
+    
+    @IBAction func btPrintStops(_ sender: Any)
+    {
+        printStopNames()
+    }
+    @IBAction func btResetCoreData(_ sender: Any) {
+        resetBusData()
+    }
+    
+    @IBOutlet weak var tbSvc: UITextField!
+    @IBAction func btGetAllSvcRoutes(_ sender: Any) {
+        initAllBusServiceData()
+    }
+    
+    @IBAction func btGetSvcRoute(_ sender: Any) {
+        print("Get service button clicked")
+        initBusServiceData(svcNo: tbSvc.text!)
+    }
+    
+    @IBAction func btPrintSvcRoute(_ sender: Any) {
+        print("Print service button clicked")
+        printRoute(svcNo: tbSvc.text!, routeNo: 1)
+        printRoute(svcNo: tbSvc.text!, routeNo: 2)
+        
+    }
+    
     
     func printStopNames()
     {
@@ -361,7 +409,8 @@ class ViewController: UIViewController {
         }
         catch
         {
-            print("Error")
+            print("Retrying")
+            resetBusData()
         }
         
         do
@@ -380,7 +429,8 @@ class ViewController: UIViewController {
         }
         catch
         {
-            print("Error")
+            print("Retrying")
+            resetBusData()
         }
     }
 }
