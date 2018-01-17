@@ -32,9 +32,7 @@ class ViewController: UIViewController {
             print("Updating database")
             //if requires update, all methods will run at the same time, causing app to crash
             //possibly due to many accessingz of coredata ––> need to find a way to separate them
-            resetBusData()
             initBusData()
-            initAllBusServiceData()
             //print("Database updated")
 
         }
@@ -128,14 +126,15 @@ class ViewController: UIViewController {
                         }
                         self.appDelegate.saveContext() //save Bus Stop to CoreData
                     }
-                    print(routeBusStopArray.count)
-                    
                     print("Loaded all bus stops")
                     
                     
                 }
                 catch let jsonErr { print("Failed to request bus stop data", jsonErr)}
             }
+            
+            self.initAllBusServiceData()
+
         }
         task.resume()
         
@@ -165,9 +164,7 @@ class ViewController: UIViewController {
                     print("Got service array")
                     
                     let routeBusSvcArray = routeBusSvcs.services
-                    
-                    print(String(describing: routeBusSvcArray?.count))
-                    
+                                        
                     for routeSvc in routeBusSvcArray! {
                         self.initBusServiceData(svcNo: routeSvc.svcNo!)
                         print(routeSvc.svcNo!)
