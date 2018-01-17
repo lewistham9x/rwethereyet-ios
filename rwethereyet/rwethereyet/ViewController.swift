@@ -183,10 +183,12 @@ class ViewController: UIViewController {
                     let busSvcResponse = try jsonDecoder.decode(RouteBusServiceResponse.Base.self, from: data!)
                     
                     //initialise bus stop list
+                    let stopsResult = try context.fetch(BusStop.fetchRequest())
+                    var stops = stopsResult as! [BusStop]
                     
-                    let result = try context.fetch(BusStop.fetchRequest())
-                    
-                    let stops = result as! [BusStop]
+                    //initialise bus service list
+                    let svcsResult = try context.fetch(BusServiceRoute.fetchRequest())
+                    var svcs = svcsResult as! [BusServiceRoute]
                     
                     
                     //count routes for received bus service
@@ -206,9 +208,6 @@ class ViewController: UIViewController {
                     do{
                         
                         var i = 1
-                        
-                        
-                        print(String(routeCount))
                         
                         repeat
                         {
@@ -241,20 +240,22 @@ class ViewController: UIViewController {
                                     {
                                         busServiceRoute.addToHasStops(stop) //associate matching stop to bus service route
                                         stop.addToHasServicesRoute(busServiceRoute) //adds this service's route to the stop (for implementation of viewing what bus services are available at a bus stop, nearby bus services)
-                                        print("route "+String(i))
-                                        print(stop.stopNo!)
                                         break //prevent duplicate stops in bus service route
                                     }
                                 }
                             }
-                            print(busServiceRoute.hasStops!.array.count)
                             
-                            self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
+                            svcs.append(busServiceRoute)
                             print("Loaded route " +  String(i) + " of "+svcNo)
                             
                             i = i+1 //increase count
                         }
+                            
                             while (i<=routeCount)
+                        
+                        
+                        //self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
+                        
                     }
                 }
                 catch let jsonErr { print("Failed to request bus stop data", jsonErr)}
