@@ -84,7 +84,7 @@ class ViewController: UIViewController {
         
         //must ensure that this is only initialised once, if not bus service routes when created will have duplicate stops too
         
-        resetBusData()
+        resetBusData() //ERRORS MAY OCCUR, SOMETIMES FAILS TO RESET – shouldnt be too big of a problem if bus stops overlap since will reinit the database again
         
         let busStopsURL = "https://raw.githubusercontent.com/cheeaun/busrouter-sg/master/data/2/bus-stops.json" //"https://busrouter.sg/data/2/bus-stops.json"
         
