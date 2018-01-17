@@ -152,7 +152,7 @@ class ViewController: UIViewController {
                         self.initBusServiceData(svcNo: routeSvc.svcNo!)
                         print(routeSvc.svcNo!)
                     }
-                    
+                    self.appDelegate.saveContext()
                     print("Loaded all bus services")
                     
                 }
@@ -253,8 +253,7 @@ class ViewController: UIViewController {
                             
                             i = i+1 //increase count
                         }
-                        self.appDelegate.saveContext()//not sure what saves. are relationships for stops saved? how bout second route will it duplicate?
-                        
+                        //self.appDelegate.saveContext()//save context once in the external initall method to optimise loading
                     }
                 }
                 catch let jsonErr { print("Failed to request bus stop data", jsonErr)}
