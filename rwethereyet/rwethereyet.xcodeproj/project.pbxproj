@@ -255,6 +255,11 @@
 					1DA257672003732C00F8CA36 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					1DA2577E2003732C00F8CA36 = {
 						CreatedOnToolsVersion = 9.2;

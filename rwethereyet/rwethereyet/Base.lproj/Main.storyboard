@@ -27,24 +27,16 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DM4-2F-9E2">
-                                <rect key="frame" x="167" y="63" width="97" height="30"/>
+                                <rect key="frame" x="167" y="64" width="97" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JGA-Bp-rWq">
-                                <rect key="frame" x="232" y="101" width="32" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Print"/>
-                                <connections>
-                                    <action selector="btPrintSvcRoute:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JeI-eu-Ibt"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Eu-Pj-BND">
-                                <rect key="frame" x="175" y="101" width="30" height="30"/>
+                                <rect key="frame" x="175" y="95" width="80" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Get"/>
+                                <state key="normal" title="Get Service"/>
                                 <connections>
                                     <action selector="btGetSvcRoute:" destination="BYZ-38-t0r" eventType="touchUpInside" id="w3J-4P-Zpm"/>
                                 </connections>
@@ -58,17 +50,13 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c2a-Cz-fgh">
-                                <rect key="frame" x="97" y="171" width="108" height="30"/>
+                                <rect key="frame" x="16" y="133" width="108" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Reset CoreData"/>
                                 <connections>
                                     <action selector="btResetCoreData:" destination="BYZ-38-t0r" eventType="touchUpInside" id="C9e-bf-BGp"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zp3-8S-Nl3">
-                                <rect key="frame" x="197" y="209" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="90r-Q3-mcO">
                                 <rect key="frame" x="192" y="25" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -77,12 +65,27 @@
                                     <action selector="btGetAllSvcRoutes:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zTe-dz-uO3"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JGA-Bp-rWq">
+                                <rect key="frame" x="144" y="133" width="142" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Print Service's Stops"/>
+                                <connections>
+                                    <action selector="btPrintSvcRoute:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JeI-eu-Ibt"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ML2-d9-X9g">
+                                <rect key="frame" x="144" y="171" width="142" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Print Stop's Services"/>
+                                <connections>
+                                    <action selector="btPrintStopsServices:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iAW-2n-fLa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="aiLoading" destination="zp3-8S-Nl3" id="syf-PB-E1W"/>
                         <outlet property="tbSvc" destination="DM4-2F-9E2" id="ufA-n8-BVv"/>
                     </connections>
                 </viewController>

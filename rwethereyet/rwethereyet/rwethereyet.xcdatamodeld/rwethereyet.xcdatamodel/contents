@@ -10,7 +10,7 @@
         <attribute name="longitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="stopNo" attributeType="String" syncable="YES"/>
-        <relationship name="hasServicesRoute" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BusServiceRoute" inverseName="hasStops" inverseEntity="BusServiceRoute" syncable="YES"/>
+        <relationship name="hasServicesRoute" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="BusServiceRoute" inverseName="hasStops" inverseEntity="BusServiceRoute" syncable="YES"/>
     </entity>
     <entity name="LastUpdate" representedClassName="LastUpdate" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>

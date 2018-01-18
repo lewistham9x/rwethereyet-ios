@@ -22,6 +22,7 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        print("Memory warning received")
     }
     
     
@@ -183,6 +184,7 @@ class ViewController: UIViewController {
     func initBusServiceData(svcNo: String)//routecount may have to be checked within here itself, if using method separately. check if .count==0 works instead of relying on getting bus service info<<<<<
         
         //MUST ensure that THERE ARE BUS STOPS BEFORE EXECUTING THIS METHOD OR WILL CRASH, DO A CHECK LATER
+        //need to check if the bus service already exists before adding if not there will be duplicates
     {
         let context = self.appDelegate.persistentContainer.viewContext
         
@@ -313,6 +315,9 @@ class ViewController: UIViewController {
         printRoute(svcNo: tbSvc.text!, routeNo: 2)
         
     }
+    @IBAction func btPrintStopsServices(_ sender: Any) {
+        printSvcs(name: tbSvc.text!)
+    }
     
     
     func printStopNames()
@@ -382,6 +387,47 @@ class ViewController: UIViewController {
             print("––––––––––––––––––––––––––––––––––––––––––––––––")
             
         }
+        catch
+        {
+            print("Error")
+        }
+    }
+    
+    func printSvcs(name: String)
+    {
+        let context = self.appDelegate.persistentContainer.viewContext
+        
+        do
+        {
+            let result = try context.fetch(BusStop.fetchRequest())
+            
+            let stops = result as! [BusStop]
+            
+            var selectedStop : BusStop = BusStop()
+            
+            for stop in stops{
+                if (stop.name == name)
+                {
+                    selectedStop=stop
+                    break
+                }
+            }
+            
+            if (selectedStop != nil)
+            {
+                let services = selectedStop.hasServicesRoute?.array as! [BusServiceRoute]
+                
+                for service in (services)
+                {
+                    print("–––––––––––––––––––")
+                    print(String(service.svcNo!))
+                    print(String(service.routeNo))
+                }
+                print("printed " + String(services.count) + " services of bus stop " + name)
+                
+            }
+        }
+            
         catch
         {
             print("Error")
