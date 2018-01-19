@@ -14,10 +14,29 @@ import CoreData
 import SwiftLocation
 
 public class Journey{
-    init() {
-        checkCurrentStop()
+    var currLat : Double
+    var currLon : Double
+    var currStop : BusStop?
+    var busRoute : [BusStop]?
+    static var uniqueInstance : Journey? = nil //Singleton
+    
+    private init() {
+        currLat = 0
+        currLon = 0
+        currStop = nil
+        busRoute = nil
     }
-    //static var currentStop : BusStop
+    
+    public static func getInstance() -> Journey
+    {
+        if (uniqueInstance == nil )
+        {
+            uniqueInstance = Journey()
+        }
+        return uniqueInstance!
+    }
+    
+    
     
     func checkCurrentStop()
     {
