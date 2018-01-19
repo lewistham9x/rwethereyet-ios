@@ -57,6 +57,37 @@ public class Journey{
         checkStop()
     }
     
+    //derived-ish attributes?
+    private func getSvcNo() -> String
+    {
+        return (chosenServiceRoute?.svcNo)!
+    }
+    private func getSvcRoute() -> Int16
+    {
+        return (chosenServiceRoute?.routeNo)!
+    }
+    
+    private func prevStopIndex() -> Int //??? correct???
+    {
+        let i = busRoute?.index(of: prevStop!) //finding index of the stop user is at
+        
+        return i!
+    }
+    private func lastStopIndex() -> Int
+    {
+        let i = busRoute?.count
+        
+        return i!
+    }
+    func stopsLeft() -> Int //??? not sure if its correct
+    {
+        return lastStopIndex() - prevStopIndex()
+    }
+    
+    
+    
+    //proper functions
+    
     private func checkStop()
     {
         Locator.requestAuthorizationIfNeeded(.always)
