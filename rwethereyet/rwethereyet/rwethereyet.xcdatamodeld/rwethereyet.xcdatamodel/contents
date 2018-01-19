@@ -6,8 +6,8 @@
         <relationship name="hasStops" toMany="YES" minCount="1" deletionRule="No Action" ordered="YES" destinationEntity="BusStop" inverseName="hasServicesRoute" inverseEntity="BusStop" syncable="YES"/>
     </entity>
     <entity name="BusStop" representedClassName="BusStop" syncable="YES" codeGenerationType="class">
-        <attribute name="latitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="longitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="stopNo" attributeType="String" syncable="YES"/>
         <relationship name="hasServicesRoute" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="BusServiceRoute" inverseName="hasStops" inverseEntity="BusServiceRoute" syncable="YES"/>

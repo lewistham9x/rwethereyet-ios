@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1D09D7F62009B9D3006D079D /* RouteBusStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D09D7F52009B9D3006D079D /* RouteBusStop.swift */; };
+		1D6BC3212011C00600AF208C /* Journey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6BC3202011C00600AF208C /* Journey.swift */; };
+		1D6BC3232011C4BB00AF208C /* Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6BC3222011C4BB00AF208C /* Distance.swift */; };
+		1D6BC3252011CB0000AF208C /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6BC3242011CB0000AF208C /* Data.swift */; };
 		1DA2576C2003732C00F8CA36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2576B2003732C00F8CA36 /* AppDelegate.swift */; };
 		1DA2576E2003732C00F8CA36 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2576D2003732C00F8CA36 /* ViewController.swift */; };
 		1DA257712003732C00F8CA36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DA2576F2003732C00F8CA36 /* Main.storyboard */; };
@@ -44,6 +47,9 @@
 		028A499417E8F78F5CE98A7F /* Pods-rwethereyetUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rwethereyetUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-rwethereyetUITests/Pods-rwethereyetUITests.release.xcconfig"; sourceTree = "<group>"; };
 		111D5A6333562F3E36DC5971 /* Pods_rwethereyetTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rwethereyetTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D09D7F52009B9D3006D079D /* RouteBusStop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteBusStop.swift; path = rwethereyet/model/API/RouteBusStop.swift; sourceTree = "<group>"; };
+		1D6BC3202011C00600AF208C /* Journey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Journey.swift; path = model/Journey.swift; sourceTree = "<group>"; };
+		1D6BC3222011C4BB00AF208C /* Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Distance.swift; path = model/Distance.swift; sourceTree = "<group>"; };
+		1D6BC3242011CB0000AF208C /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Data.swift; path = model/Data.swift; sourceTree = "<group>"; };
 		1DA257682003732C00F8CA36 /* rwethereyet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rwethereyet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DA2576B2003732C00F8CA36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DA2576D2003732C00F8CA36 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -132,6 +138,9 @@
 				1DA257772003732C00F8CA36 /* LaunchScreen.storyboard */,
 				1DA2577A2003732C00F8CA36 /* Info.plist */,
 				1DA257722003732C00F8CA36 /* rwethereyet.xcdatamodeld */,
+				1D6BC3202011C00600AF208C /* Journey.swift */,
+				1D6BC3222011C4BB00AF208C /* Distance.swift */,
+				1D6BC3242011CB0000AF208C /* Data.swift */,
 			);
 			path = rwethereyet;
 			sourceTree = "<group>";
@@ -479,11 +488,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D6BC3212011C00600AF208C /* Journey.swift in Sources */,
 				1D09D7F62009B9D3006D079D /* RouteBusStop.swift in Sources */,
 				1DA2576E2003732C00F8CA36 /* ViewController.swift in Sources */,
 				1DA2576C2003732C00F8CA36 /* AppDelegate.swift in Sources */,
+				1D6BC3232011C4BB00AF208C /* Distance.swift in Sources */,
 				1DA257742003732C00F8CA36 /* rwethereyet.xcdatamodeld in Sources */,
 				1DFF4D19200A6E300076B333 /* RouteBusService.swift in Sources */,
+				1D6BC3252011CB0000AF208C /* Data.swift in Sources */,
 				1DFF4D11200A44C40076B333 /* RouteBusServiceResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

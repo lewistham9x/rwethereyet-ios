@@ -19,8 +19,6 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         initData()
         checkCurrentStop()
-        
-        
     }
     
     
@@ -28,38 +26,6 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
         print("Memory warning received")
-    }
-    
-    func checkCurrentStop() -> BusStop?
-    {
-        Locator.requestAuthorizationIfNeeded(.always)
-        
-        Locator.events.listen { newStatus in
-            print("Authorization status changed to \(newStatus)")
-        }
-        
-        /*
-         //initialise location checks
-         Locator.subscribeSignificantLocations(onUpdate: { newLocation in
-         print("New location \(newLocation)")
-         }) { (err, lastLocation) -> (Void) in
-         print("Failed with err: \(err)")
-         }
-         */
-        
-        Locator.subscribePosition(accuracy: .city, onUpdate:
-            {
-                newLocation in
-                print("New location \(newLocation)")
-                self.lbLocation.text=String(newLocation.coordinate.latitude)+","+String(newLocation.coordinate.longitude)
-        })
-        {
-            (err, lastlocation) -> (Void) in
-            print("Failed with err: \(err)")
-        }
-        
-        return nil
-        
     }
     
     func initData()
@@ -157,8 +123,8 @@ class ViewController: UIViewController {
                             //print("Creating CoreData Object for "+routeStop.name!)
                             
                             let busStop = BusStop(context : context)
-                            busStop.latitude = Float(routeStop.latitude)!
-                            busStop.longitude = Float(routeStop.longitude)!
+                            busStop.latitude = Double(routeStop.latitude)!
+                            busStop.longitude = Double(routeStop.longitude)!
                             busStop.name = routeStop.name
                             busStop.stopNo = routeStop.stopNo
                             
@@ -387,22 +353,6 @@ class ViewController: UIViewController {
         }
     }
     
-    func getAllStops() -> [BusStop]
-    {
-        let context = self.appDelegate.persistentContainer.viewContext
-        
-        do
-        {
-            let result = try context.fetch(BusStop.fetchRequest())
-            
-            let stops = result as! [BusStop]
-            
-            return stops
-        }
-        catch{
-            return []
-        }
-    }
     
     func printRoute(svcNo: String, routeNo: Int16)
     {
