@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SwiftLocation
+import SwiftOverlays
 
 class ViewController: UIViewController {
     
@@ -16,8 +18,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         initData()
+        checkCurrentStop()
+        
         
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -25,17 +30,52 @@ class ViewController: UIViewController {
         print("Memory warning received")
     }
     
+    func checkCurrentStop() -> BusStop?
+    {
+        Locator.requestAuthorizationIfNeeded(.always)
+        
+        Locator.events.listen { newStatus in
+            print("Authorization status changed to \(newStatus)")
+        }
+        
+        /*
+         //initialise location checks
+         Locator.subscribeSignificantLocations(onUpdate: { newLocation in
+         print("New location \(newLocation)")
+         }) { (err, lastLocation) -> (Void) in
+         print("Failed with err: \(err)")
+         }
+         */
+        
+        Locator.subscribePosition(accuracy: .city, onUpdate:
+            {
+                newLocation in
+                print("New location \(newLocation)")
+                self.lbLocation.text=String(newLocation.coordinate.latitude)+","+String(newLocation.coordinate.longitude)
+        })
+        {
+            (err, lastlocation) -> (Void) in
+            print("Failed with err: \(err)")
+        }
+        
+        return nil
+        
+    }
     
     func initData()
     {
         if (needsUpdate())
         {
             print("Updating database")
+            
+            //show updating message overlay
+            self.showWaitOverlayWithText("Performing First Time Setup...")
+            
             //if requires update, all methods will run at the same time, causing app to crash
             //possibly due to many accessingz of coredata ––> need to find a way to separate them
             initBusData()
             //print("Database updated")
-
+            
         }
         else
         {
@@ -84,6 +124,7 @@ class ViewController: UIViewController {
         //initialise and create all bus stops
         
         //must ensure that this is only initialised once, if not bus service routes when created will have duplicate stops too
+        
         
         resetBusData() //ERRORS MAY OCCUR, SOMETIMES FAILS TO RESET – shouldnt be too big of a problem if bus stops overlap since will reinit the database again
         
@@ -135,7 +176,7 @@ class ViewController: UIViewController {
             }
             
             self.initAllBusServiceData()
-
+            
         }
         task.resume()
         
@@ -165,7 +206,7 @@ class ViewController: UIViewController {
                     print("Got service array")
                     
                     let routeBusSvcArray = routeBusSvcs.services
-                                        
+                    
                     for routeSvc in routeBusSvcArray! {
                         self.initBusServiceData(svcNo: routeSvc.svcNo!)
                         print(routeSvc.svcNo!)
@@ -176,6 +217,8 @@ class ViewController: UIViewController {
                 }
                 catch let jsonErr { print("Failed to request bus service data", jsonErr)}
             }
+            //remove updating loading screen message
+            self.removeAllOverlays()
         }
         task.resume()
     }
@@ -318,6 +361,7 @@ class ViewController: UIViewController {
     @IBAction func btPrintStopsServices(_ sender: Any) {
         printSvcs(name: tbSvc.text!)
     }
+    @IBOutlet weak var lbLocation: UILabel!
     
     
     func printStopNames()

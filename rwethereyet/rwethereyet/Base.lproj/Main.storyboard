@@ -18,67 +18,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OpX-Xa-ruz">
-                                <rect key="frame" x="18" y="101" width="120" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lCm-YU-KtV">
+                                <rect key="frame" x="0.0" y="139" width="375" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Print Stop Names"/>
-                                <connections>
-                                    <action selector="btPrintStops:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XDP-H4-oy3"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DM4-2F-9E2">
-                                <rect key="frame" x="167" y="64" width="97" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Eu-Pj-BND">
-                                <rect key="frame" x="175" y="95" width="80" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Get Service"/>
-                                <connections>
-                                    <action selector="btGetSvcRoute:" destination="BYZ-38-t0r" eventType="touchUpInside" id="w3J-4P-Zpm"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H01-X9-5D8">
-                                <rect key="frame" x="18" y="63" width="117" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Reinitialise Stops"/>
-                                <connections>
-                                    <action selector="btReinitStops:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QzO-M8-L1F"/>
-                                </connections>
-                            </button>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c2a-Cz-fgh">
-                                <rect key="frame" x="16" y="133" width="108" height="30"/>
+                                <rect key="frame" x="0.0" y="457" width="108" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Reset CoreData"/>
                                 <connections>
                                     <action selector="btResetCoreData:" destination="BYZ-38-t0r" eventType="touchUpInside" id="C9e-bf-BGp"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="90r-Q3-mcO">
-                                <rect key="frame" x="192" y="25" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Get All"/>
-                                <connections>
-                                    <action selector="btGetAllSvcRoutes:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zTe-dz-uO3"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JGA-Bp-rWq">
-                                <rect key="frame" x="144" y="133" width="142" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Print Service's Stops"/>
-                                <connections>
-                                    <action selector="btPrintSvcRoute:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JeI-eu-Ibt"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ML2-d9-X9g">
-                                <rect key="frame" x="144" y="171" width="142" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Print Stop's Services"/>
-                                <connections>
-                                    <action selector="btPrintStopsServices:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iAW-2n-fLa"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -86,12 +38,12 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="tbSvc" destination="DM4-2F-9E2" id="ufA-n8-BVv"/>
+                        <outlet property="lbLocation" destination="lCm-YU-KtV" id="mSy-67-ArC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-290" y="116"/>
+            <point key="canvasLocation" x="-290.39999999999998" y="115.59220389805098"/>
         </scene>
     </scenes>
 </document>
