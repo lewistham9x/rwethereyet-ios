@@ -217,7 +217,8 @@ class ViewController: UIViewController {
                 }
                 catch let jsonErr { print("Failed to request bus service data", jsonErr)}
             }
-            //remove updating loading screen message
+            //remove updating loading screen message ––– inaccurate, will have to use dispatch groups and pass as parameters
+            //https://stackoverflow.com/questions/35906568/wait-until-swift-for-loop-with-asynchronous-network-requests-finishes-executing
             self.removeAllOverlays()
         }
         task.resume()
