@@ -41,14 +41,14 @@ import Foundation
 ///  This function converts decimal degrees to radians              ///
 ///////////////////////////////////////////////////////////////////////
 func deg2rad(deg:Double) -> Double {
-    return deg * M_PI / 180
+    return deg * Double.pi / 180
 }
 
 ///////////////////////////////////////////////////////////////////////
 ///  This function converts radians to decimal degrees              ///
 ///////////////////////////////////////////////////////////////////////
 func rad2deg(rad:Double) -> Double {
-    return rad * 180.0 / M_PI
+    return rad * 180.0 / Double.pi
 }
 
 func distance(lat1:Double, lon1:Double, lat2:Double, lon2:Double, unit:String) -> Double {

@@ -13,58 +13,76 @@ import Foundation
 import CoreData
 import SwiftLocation
 
+
 public class Journey{
-    var currLat : Double
-    var currLon : Double
-    var currStop : BusStop?
-    var busRoute : [BusStop]?
-    static var uniqueInstance : Journey? = nil //Singleton
     
-    private init() {
+    private var state : JourneyState!
+    
+    private var selectState : JourneyState!
+    private var inJourneyState : JourneyState!
+    private var reachingState : JourneyState!
+    private var reachedState : JourneyState!
+    
+    
+    
+    private var currLat : Double
+    private var currLon : Double
+    private var prevStop : BusStop?
+    
+    
+    
+    private var availSvcs : [BusServiceRoute]?
+    private var chosenServiceRoute : BusServiceRoute? //required to save service number
+    
+    
+    var routeDestinations : [BusStop]?
+    var busRoute : [BusStop]?
+    
+    
+    
+    init() {
         currLat = 0
         currLon = 0
-        currStop = nil
+        prevStop = nil
+        
         busRoute = nil
+        
+        selectState = SelectState(myJourney: self) //change to subclass later
+        inJourneyState = SelectState(myJourney: self)
+        reachingState = SelectState(myJourney: self)
+        reachedState = SelectState(myJourney: self)
+        
+        state = selectState
+        
+        checkStop()
     }
     
-    public static func getInstance() -> Journey
-    {
-        if (uniqueInstance == nil )
-        {
-            uniqueInstance = Journey()
-        }
-        return uniqueInstance!
-    }
-    
-    
-    
-    func checkCurrentStop()
+    func checkStop()
     {
         Locator.requestAuthorizationIfNeeded(.always)
         
         Locator.events.listen { newStatus in
             print("Authorization status changed to \(newStatus)")
         }
-        
-        /*
-         //initialise location checks
-         Locator.subscribeSignificantLocations(onUpdate: { newLocation in
-         print("New location \(newLocation)")
-         }) { (err, lastLocation) -> (Void) in
-         print("Failed with err: \(err)")
-         }
-         */
-        
         Locator.subscribePosition(accuracy: .room, onUpdate:
             {
                 newLocation in
                 print("New location \(newLocation)")
                 
+                self.currLat = newLocation.coordinate.latitude
+                self.currLon = newLocation.coordinate.longitude
+                
                 let stopList = getAllStops()
                 for stop in stopList
                 {
-                    if (isAtStop(stop: stop, lat: newLocation.coordinate.latitude, lon: newLocation.coordinate.longitude)){
+                    if (isAtStop(stop: stop, lat: self.currLat, lon: self.currLon)){
                         
+                        //prevStop only changes to anything within bus stop list if its in select state
+                        //select state changestop will cause an update in bus services displayed
+                        //if its in other state, it will check if its the next stop in the route first
+                        //need to update receiver
+                        
+                        self.state.changeStop(stop: stop)
                         break
                     }
                 }
@@ -74,13 +92,79 @@ public class Journey{
             print("Failed with err: \(err)")
         }
     }
+    
+    func setSvcRoutesForCurrentStop()
+    {
+        availSvcs = prevStop!.hasServicesRoute?.array as? [BusServiceRoute]
+        chooseSvcRoute(chosenInt: 0) //autoselect the first service for the bus stop
+    }
+    
+    //user input(select from tvc) to run this method
+    //upon service switch, need to update the tableview controller with routeDestinations
+    func chooseSvcRoute(chosenInt: Int)
+    {
+        chosenServiceRoute = availSvcs![chosenInt]
+        setRouteDestinations(busSvcRoute: chosenServiceRoute!)
+        //tvc change to chosen svcroute
+    }
+    
+    //gets all the available destinations based on the service selected, will only show bus stops after the bus stop the user is at
+    func setRouteDestinations(busSvcRoute : BusServiceRoute)
+    {
+        let route = busSvcRoute.hasStops?.array as! [BusStop] //grab the bus stop list of the bus service route user selected
+        
+        var startIndex = route.index(of: prevStop!)! //finding index of the stop user is at
+
+        var i = startIndex
+        
+        var destinations : [BusStop] = []
+        
+        //trim to create journey route from service's route
+        while (i <= route.count)
+        {
+            destinations.append(route[i])
+            i = i+1
+        }
+        routeDestinations=destinations //sets the route destinations to whatever stops are available
+    }
+    
+    //user input (selects the bus stop to set the route of the bus journey) ––> bus service no and route will be locked in too
+    //selects from trimmed list of from current stop to end, to create the bus journey route
+    func selectBusRoute(selectedIndex : Int16)
+    {
+        setRoute(end: selectedIndex, route: routeDestinations!)
+    }
+    
+    
+    //from selection, create a bus journey route proceed to journey state
+    func setRoute(end: Int16, route: [BusStop])
+    {
+        var journeyRoute : [BusStop] = []
+        
+        var i = 0
+        //trim to create journey route from service's route
+        while (i <= end)
+        {
+            journeyRoute.append(route[i])
+            i = i+1
+        }
+        
+        print(journeyRoute[0].name!+journeyRoute.last!.name!)
+        
+        busRoute=journeyRoute
+        
+        //change state to journey state
+        self.state = inJourneyState
+        
+        //segue to new vc
+        //vc.segue or some shit l0l0l0
+    }
+    
 }
 
 
 
-
-
-
+//public functions
 public func isAtStop(stop: BusStop, lat: Double, lon: Double) -> Bool
 {
     if (withinRadius(stop: stop,lat: lat,lon: lon,rad: 50)) //to make radius customisable in the future as a sensitivity feature, by default, the current fine-tuned accurate radius is 50m
