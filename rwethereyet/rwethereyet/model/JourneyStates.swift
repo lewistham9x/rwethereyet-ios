@@ -37,7 +37,6 @@ class SelectState: JourneyState{
         //upon user selection will have to change bus service and rotue
         
         
-        //update upper selection view
         
 
     }

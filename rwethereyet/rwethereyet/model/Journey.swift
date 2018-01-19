@@ -57,7 +57,7 @@ public class Journey{
         checkStop()
     }
     
-    func checkStop()
+    private func checkStop()
     {
         Locator.requestAuthorizationIfNeeded(.always)
         
@@ -83,6 +83,7 @@ public class Journey{
                         //need to update receiver
                         
                         self.state.changeStop(stop: stop)
+                        print("New Stop: "+stop.name!)
                         break
                     }
                 }
@@ -93,15 +94,26 @@ public class Journey{
         }
     }
     
-    func setSvcRoutesForCurrentStop()
+    public func setSvcRoutesForCurrentStop()
     {
         availSvcs = prevStop!.hasServicesRoute?.array as? [BusServiceRoute]
         chooseSvcRoute(chosenInt: 0) //autoselect the first service for the bus stop
+        
+        
+        //update upper selection view
+        //need to update tvc within the vc to show the new svcroutes
+        
+        
+        //DEBUG
+        
+        let vc = ViewController()
+        
+        vc.updateCurrentStop(stop: prevStop!)
     }
     
     //user input(select from tvc) to run this method
     //upon service switch, need to update the tableview controller with routeDestinations
-    func chooseSvcRoute(chosenInt: Int)
+    public func chooseSvcRoute(chosenInt: Int)
     {
         chosenServiceRoute = availSvcs![chosenInt]
         setRouteDestinations(busSvcRoute: chosenServiceRoute!)
@@ -109,7 +121,7 @@ public class Journey{
     }
     
     //gets all the available destinations based on the service selected, will only show bus stops after the bus stop the user is at
-    func setRouteDestinations(busSvcRoute : BusServiceRoute)
+    private func setRouteDestinations(busSvcRoute : BusServiceRoute)
     {
         let route = busSvcRoute.hasStops?.array as! [BusStop] //grab the bus stop list of the bus service route user selected
         
@@ -130,14 +142,14 @@ public class Journey{
     
     //user input (selects the bus stop to set the route of the bus journey) ––> bus service no and route will be locked in too
     //selects from trimmed list of from current stop to end, to create the bus journey route
-    func selectBusRoute(selectedIndex : Int16)
+    public func selectBusRoute(selectedIndex : Int16)
     {
         setRoute(end: selectedIndex, route: routeDestinations!)
     }
     
     
     //from selection, create a bus journey route proceed to journey state
-    func setRoute(end: Int16, route: [BusStop])
+    private func setRoute(end: Int16, route: [BusStop])
     {
         var journeyRoute : [BusStop] = []
         
