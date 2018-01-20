@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     
     let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
     
+    var newJourney = Journey()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -23,15 +25,8 @@ class ViewController: UIViewController {
         //observer to update current stop –– will current bus stop and its available services
         NotificationCenter.default.addObserver(forName: Notification.Name("updateSvcs"), object: nil, queue: nil, using: updateCurrentStop(notif: ))
         
-        /* swift 4 supposed proper version? needs obj c???
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateCurrentStop(notif:)), name: Notification.Name("updateStop"), object: nil)
-*/
-        
-        
-        
-        
-        let newJourney = Journey()
-        
+        //if user selects
+        //use newJourney.chooseSvcRoute(chosenInt: selected)
     }
 
     
@@ -41,17 +36,35 @@ class ViewController: UIViewController {
         print("Memory warning received")
     }
     
-    //@objc
     func updateCurrentStop(notif: Notification) -> Void
     {
         
         //guard helps deal with optionals
         guard let userInfo = notif.userInfo, //grab all passed values
-            let currStop = userInfo["prevStop"] as? BusStop
+            let lastStop = userInfo["reach"] as? BusStop,
+            let destinations = userInfo["dest"] as? [BusStop]!
             else{
                 return
         }
-        lbLocation.text = currStop.name
+        
+        
+        lbLocation.text = lastStop.name
+        let svcs = availSvcs(stop: lastStop)
+        
+        for svc in svcs
+        {
+            print(svc.svcNo!+", route "+String(svc.routeNo))
+        }
+        
+        
+        print("Current Stop: "+lastStop.name!+" ("+lastStop.stopNo!+")")
+        
+        print("select your destination:")
+        for stop in destinations
+        {
+            print(stop.name!+" ("+stop.stopNo!+")")
+        }
+        
     }
     
     

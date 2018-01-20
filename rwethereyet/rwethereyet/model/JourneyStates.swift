@@ -27,14 +27,13 @@ class SelectState: JourneyState{
     
     func onLocationChanged(newLat: Double, newLon: Double) {
         checkStop(lat: newLat, lon: newLon)
-        
+        //in certain states, may need to show how far away from next stop in graphic
     }
     
     func checkStop(lat: Double, lon: Double) {
         let stopList = getAllStops()
         
         print("checking if near any stop")
-        
         
         var currStop : BusStop?
 
@@ -46,7 +45,7 @@ class SelectState: JourneyState{
                 //select state changestop will cause an update in bus services displayed
                 //if its in other state, it will check if its the next stop in the route first
                 //need to update receiver
-                print("New Stop Detected: "+stop.name!)
+                print("Stop Detected: "+stop.name!)
                 
                 currStop = stop
                 break
@@ -58,10 +57,12 @@ class SelectState: JourneyState{
         if (currStop != nil && currStop != myJourney.getReachedStop()) //if stop is eligible  (is within the correct route or
         {
             changeStop(stop: currStop, legible: true)
+            print("Stop is eligible")
         }
         else
         {
             changeStop(stop: currStop, legible: false)
+            print("lol no it not")
         }
     }
     
@@ -73,10 +74,6 @@ class SelectState: JourneyState{
         if (legible) //in this case legible means that the user is at a bus stop
         {
             myJourney.setReachedStop(stop: stop!)
-            
-            //updates services available verytime prevStop updates during selection process to show bus destinations to choose from
-            
-            myJourney.updateSelectViewSvcsInfo()
             
             //will show first service by default
             //upon user selection will have to change bus service and route

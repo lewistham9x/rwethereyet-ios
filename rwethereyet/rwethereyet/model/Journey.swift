@@ -112,27 +112,29 @@ public class Journey{
         }
     }
 
-    public func updateSelectViewSvcsInfo()
-    {
-        //post update to viewcontroller to show new bus services
-        NotificationCenter.default.post(
-            name: Notification.Name("updateSvcs"),
-            object: nil,
-            userInfo: ["reachedStop":reachedStop!,"currentStop":currStop!])
-        
-        //no need an observer to update stops after selection as journey can be accessed for routeDestinations
-    }
-    
-    
-    //user input(select from tvc) to run this method
+    //user input(select from tvc) to run this method, will auto select 0 if first reach
     //upon service switch, need to update the tableview controller with routeDestinations
     public func chooseSvcRoute(chosenInt: Int)
     {
         chosenServiceRoute = availSvcs(stop: currStop!)[chosenInt]
         setRouteDestinations(busSvcRoute: chosenServiceRoute!)
         //tvc change to chosen svcroute
-        updateSelectViewSvcsInfo()
+        updateSelectViewSvcsInfo() //updates viewcontroller with new destinations
     }
+    
+    
+    public func updateSelectViewSvcsInfo()
+    {
+        //post update to viewcontroller to show new bus services
+        NotificationCenter.default.post(
+            name: Notification.Name("updateSvcs"),
+            object: nil,
+            userInfo: ["reach":reachedStop!,"curr":currStop!,"dest":routeDestinations!])
+        
+        //no need an observer to update stops after selection as journey can be accessed for routeDestinations
+    }
+    
+    
     
     //gets all the available destinations based on the service selected, will only show bus stops after the bus stop the user is at
     private func setRouteDestinations(busSvcRoute : BusServiceRoute)
