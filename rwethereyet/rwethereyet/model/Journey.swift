@@ -39,7 +39,6 @@ public class Journey{
     var busRoute : [BusStop]?
     
     
-    
     init() {
         currLat = 0
         currLon = 0
@@ -54,10 +53,15 @@ public class Journey{
         
         state = selectState
         
+        print("checking stops now")
         checkStop()
     }
     
     //derived-ish attributes?
+    public func getPrevStop() -> BusStop?
+    {
+        return prevStop
+    }
     private func getSvcNo() -> String
     {
         return (chosenServiceRoute?.svcNo)!
@@ -75,9 +79,9 @@ public class Journey{
     }
     private func lastStopIndex() -> Int
     {
-        let i = busRoute?.count
+        let i = (busRoute?.count)!-1
         
-        return i!
+        return i
     }
     func stopsLeft() -> Int //??? not sure if its correct
     {
@@ -104,6 +108,8 @@ public class Journey{
                 self.currLon = newLocation.coordinate.longitude
                 
                 let stopList = getAllStops()
+                print("checking if near any stop")
+                
                 for stop in stopList
                 {
                     if (isAtStop(stop: stop, lat: self.currLat, lon: self.currLon)){
@@ -112,10 +118,12 @@ public class Journey{
                         //select state changestop will cause an update in bus services displayed
                         //if its in other state, it will check if its the next stop in the route first
                         //need to update receiver
-                        
-                        self.state.changeStop(stop: stop)
                         print("New Stop: "+stop.name!)
+                        self.state.changeStop(stop: stop)
                         break
+                    }
+                    else{
+                        print("nope")
                     }
                 }
         })
@@ -127,7 +135,8 @@ public class Journey{
     
     public func setSvcRoutesForCurrentStop()
     {
-        availSvcs = prevStop!.hasServicesRoute?.array as? [BusServiceRoute]
+        availSvcs = prevStop?.hasServicesRoute?.array as? [BusServiceRoute]
+
         chooseSvcRoute(chosenInt: 0) //autoselect the first service for the bus stop
         
         
@@ -137,9 +146,16 @@ public class Journey{
         
         //DEBUG
         
-        let vc = ViewController()
+        print(prevStop!.name!)
         
-        vc.updateCurrentStop(stop: prevStop!)
+        
+        
+        
+        //post update to viewcontroller
+        NotificationCenter.default.post(
+            name: Notification.Name("updateStop"),
+            object: nil,
+            userInfo: ["prevStop":prevStop])
     }
     
     //user input(select from tvc) to run this method
@@ -163,7 +179,7 @@ public class Journey{
         var destinations : [BusStop] = []
         
         //trim to create journey route from service's route
-        while (i <= route.count)
+        while (i <= route.count-1)
         {
             destinations.append(route[i])
             i = i+1
@@ -201,6 +217,12 @@ public class Journey{
         
         //segue to new vc
         //vc.segue or some shit l0l0l0
+    }
+    
+    
+    func setPrevStop(stop: BusStop)
+    {
+        prevStop = stop;
     }
     
 }

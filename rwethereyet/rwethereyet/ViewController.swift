@@ -19,9 +19,21 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         initData()
         
-        var newJourney = Journey()
+        
+        //observer to update current stop –– will current bus stop and its available services
+        NotificationCenter.default.addObserver(forName: Notification.Name("updateStop"), object: nil, queue: nil, using: updateCurrentStop(notif: ))
+        
+        /* swift 4 supposed proper version? needs obj c???
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateCurrentStop(notif:)), name: Notification.Name("updateStop"), object: nil)
+*/
+        
+        
+        
+        
+        let newJourney = Journey()
+        
     }
-    
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -29,12 +41,18 @@ class ViewController: UIViewController {
         print("Memory warning received")
     }
     
-    func updateCurrentStop(stop: BusStop)
+    //@objc
+    func updateCurrentStop(notif: Notification) -> Void
     {
-        lbLocation.text=stop.name!+String(stop.stopNo!)
+        
+        //guard helps deal with optionals
+        guard let userInfo = notif.userInfo, //grab all passed values
+            let currStop = userInfo["prevStop"] as? BusStop
+            else{
+                return
+        }
+        lbLocation.text = currStop.name
     }
-    
-    
     
     
     

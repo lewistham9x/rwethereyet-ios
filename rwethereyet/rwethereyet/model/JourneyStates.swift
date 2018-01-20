@@ -24,6 +24,11 @@ class SelectState: JourneyState{
     }
     
     func changeStop(stop: BusStop) {
+        
+        //set prevstop to said stop
+        myJourney.setPrevStop(stop: stop)
+        
+        
         //in other states, will change state, segue to new controller
         //gets all bus services based on prevStop
         
