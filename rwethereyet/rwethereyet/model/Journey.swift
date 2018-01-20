@@ -54,7 +54,7 @@ public class Journey{
         state = selectState
         
         print("checking stops now")
-        checkStop()
+        startLoc()
     }
     
     //derived-ish attributes?
@@ -88,45 +88,25 @@ public class Journey{
         return lastStopIndex() - prevStopIndex()
     }
     
-    
-    
     //proper functions
     
-    private func checkStop()
+    private func startLoc()
     {
         Locator.requestAuthorizationIfNeeded(.always)
         
         Locator.events.listen { newStatus in
             print("Authorization status changed to \(newStatus)")
         }
-        Locator.subscribePosition(accuracy: .room, onUpdate:
+        Locator.subscribePosition(
+            accuracy: .room,
+            onUpdate:
             {
                 newLocation in
-                print("New location \(newLocation)")
-                
                 self.currLat = newLocation.coordinate.latitude
                 self.currLon = newLocation.coordinate.longitude
                 
-                let stopList = getAllStops()
-                print("checking if near any stop")
-                
-                for stop in stopList
-                {
-                    if (isAtStop(stop: stop, lat: self.currLat, lon: self.currLon)){
-                        
-                        //prevStop only changes to anything within bus stop list if its in select state
-                        //select state changestop will cause an update in bus services displayed
-                        //if its in other state, it will check if its the next stop in the route first
-                        //need to update receiver
-                        print("New Stop: "+stop.name!)
-                        self.state.changeStop(stop: stop)
-                        break
-                    }
-                    else{
-                        print("nope")
-                    }
-                }
-        })
+                self.state.onLocationChanged(newLat: self.currLat, newLon: self.currLon)}
+            )
         {
             (err, lastlocation) -> (Void) in
             print("Failed with err: \(err)")
@@ -224,7 +204,6 @@ public class Journey{
     {
         prevStop = stop;
     }
-    
 }
 
 
