@@ -23,15 +23,13 @@ public class Journey{
     private var reachingState : JourneyState!
     private var reachedState : JourneyState!
     
-    
-    
     private var currLat : Double
     private var currLon : Double
-    private var prevStop : BusStop?
+    private var reachedStop : BusStop? //reached stop is the last stop that user reached (any stop or within the route depending on the state), will be nil if user hasnt reached a stop
     
+    private var currStop : BusStop? //curr stop is the stop the user is at NOW, user can be not at any stop at any point of time    
     
-    
-    private var availSvcs : [BusServiceRoute]?
+    //private var availSvcs : [BusServiceRoute]? derived from prevStop
     private var chosenServiceRoute : BusServiceRoute? //required to save service number
     
     
@@ -42,7 +40,7 @@ public class Journey{
     init() {
         currLat = 0
         currLon = 0
-        prevStop = nil
+        reachedStop = nil
         
         busRoute = nil
         
@@ -58,10 +56,11 @@ public class Journey{
     }
     
     //derived-ish attributes?
-    public func getPrevStop() -> BusStop?
+    public func getReachedStop() -> BusStop?
     {
-        return prevStop
+        return reachedStop
     }
+    
     private func getSvcNo() -> String
     {
         return (chosenServiceRoute?.svcNo)!
@@ -73,7 +72,7 @@ public class Journey{
     
     private func prevStopIndex() -> Int //??? correct???
     {
-        let i = busRoute?.index(of: prevStop!) //finding index of the stop user is at
+        let i = busRoute?.index(of: reachedStop!) //finding index of the stop user is at
         
         return i!
     }
@@ -112,39 +111,27 @@ public class Journey{
             print("Failed with err: \(err)")
         }
     }
-    
-    public func setSvcRoutesForCurrentStop()
-    {
-        availSvcs = prevStop?.hasServicesRoute?.array as? [BusServiceRoute]
 
-        chooseSvcRoute(chosenInt: 0) //autoselect the first service for the bus stop
-        
-        
-        //update upper selection view
-        //need to update tvc within the vc to show the new svcroutes
-        
-        
-        //DEBUG
-        
-        print(prevStop!.name!)
-        
-        
-        
-        
-        //post update to viewcontroller
+    public func updateSelectViewSvcsInfo()
+    {
+        //post update to viewcontroller to show new bus services
         NotificationCenter.default.post(
-            name: Notification.Name("updateStop"),
+            name: Notification.Name("updateSvcs"),
             object: nil,
-            userInfo: ["prevStop":prevStop])
+            userInfo: ["reachedStop":reachedStop!,"currentStop":currStop!])
+        
+        //no need an observer to update stops after selection as journey can be accessed for routeDestinations
     }
+    
     
     //user input(select from tvc) to run this method
     //upon service switch, need to update the tableview controller with routeDestinations
     public func chooseSvcRoute(chosenInt: Int)
     {
-        chosenServiceRoute = availSvcs![chosenInt]
+        chosenServiceRoute = availSvcs(stop: currStop!)[chosenInt]
         setRouteDestinations(busSvcRoute: chosenServiceRoute!)
         //tvc change to chosen svcroute
+        updateSelectViewSvcsInfo()
     }
     
     //gets all the available destinations based on the service selected, will only show bus stops after the bus stop the user is at
@@ -152,7 +139,7 @@ public class Journey{
     {
         let route = busSvcRoute.hasStops?.array as! [BusStop] //grab the bus stop list of the bus service route user selected
         
-        var startIndex = route.index(of: prevStop!)! //finding index of the stop user is at
+        var startIndex = route.index(of: reachedStop!)! //finding index of the stop user is at
 
         var i = startIndex
         
@@ -197,18 +184,33 @@ public class Journey{
         
         //segue to new vc
         //vc.segue or some shit l0l0l0
+        //not required because button already does so?
     }
     
     
-    func setPrevStop(stop: BusStop)
+    func setCurrStop(stop: BusStop?)
     {
-        prevStop = stop;
+        currStop = stop
     }
+    
+    func setReachedStop(stop: BusStop)
+    {
+        reachedStop = stop
+    }
+    
 }
 
 
 
 //public functions
+
+//get the available bus services for a particular bus stop
+
+public func availSvcs(stop: BusStop) -> [BusServiceRoute]
+{
+    return (stop.hasServicesRoute?.array as? [BusServiceRoute])!
+}
+
 public func isAtStop(stop: BusStop, lat: Double, lon: Double) -> Bool
 {
     if (withinRadius(stop: stop,lat: lat,lon: lon,rad: 50)) //to make radius customisable in the future as a sensitivity feature, by default, the current fine-tuned accurate radius is 50m

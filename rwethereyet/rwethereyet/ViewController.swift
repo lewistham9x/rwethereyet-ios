@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         
         
         //observer to update current stop –– will current bus stop and its available services
-        NotificationCenter.default.addObserver(forName: Notification.Name("updateStop"), object: nil, queue: nil, using: updateCurrentStop(notif: ))
+        NotificationCenter.default.addObserver(forName: Notification.Name("updateSvcs"), object: nil, queue: nil, using: updateCurrentStop(notif: ))
         
         /* swift 4 supposed proper version? needs obj c???
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCurrentStop(notif:)), name: Notification.Name("updateStop"), object: nil)

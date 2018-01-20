@@ -12,7 +12,7 @@ protocol JourneyState{ //applying state pattern
     init(myJourney : Journey)
     func onLocationChanged(newLat: Double, newLon: Double)
     func checkStop(lat: Double, lon: Double)
-    func changeStop(stop: BusStop)
+    func changeStop(stop: BusStop?, legible: Bool)
     func notify()
     func updateView()
 }
@@ -35,6 +35,10 @@ class SelectState: JourneyState{
         
         print("checking if near any stop")
         
+        
+        var currStop : BusStop?
+
+        //check if the user is at the location of any bus stop
         for stop in stopList
         {
             if (isAtStop(stop: stop, lat: lat, lon: lon)){
@@ -43,24 +47,45 @@ class SelectState: JourneyState{
                 //if its in other state, it will check if its the next stop in the route first
                 //need to update receiver
                 print("New Stop Detected: "+stop.name!)
-                changeStop(stop: stop)
+                
+                currStop = stop
                 break
             }
         }
+        
+        
+        //sends nil if not at a particular bus stop
+        if (currStop != nil && currStop != myJourney.getReachedStop()) //if stop is eligible  (is within the correct route or
+        {
+            changeStop(stop: currStop, legible: true)
+        }
+        else
+        {
+            changeStop(stop: currStop, legible: false)
+        }
     }
     
-    func changeStop(stop: BusStop) {
-        //set prevstop to said stop
-        myJourney.setPrevStop(stop: stop)
-        //in other states, will change state, segue to new controller
-        //gets all bus services based on prevStop
+    
+    
+    func changeStop(stop: BusStop?, legible: Bool) {
         
-        //updates services available verytime prevStop updates during selection process to show bus destinations to choose from
-        myJourney.setSvcRoutesForCurrentStop()
-
-        //upon user selection will have to change bus service and rotue
-        
-
+        myJourney.setCurrStop(stop: stop) //sets current stop whether its eligible or not
+        if (legible) //in this case legible means that the user is at a bus stop
+        {
+            myJourney.setReachedStop(stop: stop!)
+            
+            //updates services available verytime prevStop updates during selection process to show bus destinations to choose from
+            
+            myJourney.updateSelectViewSvcsInfo()
+            
+            //will show first service by default
+            //upon user selection will have to change bus service and route
+            myJourney.chooseSvcRoute(chosenInt: 0)
+        }
+        else
+        {
+            //do nothing, wont update to show no bus services
+        }
     }
     
     func notify() {
