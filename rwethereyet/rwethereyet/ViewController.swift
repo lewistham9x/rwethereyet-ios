@@ -25,6 +25,9 @@ class ViewController: UIViewController {
         //observer to update current stop –– will current bus stop and its available services
         NotificationCenter.default.addObserver(forName: Notification.Name("updateSvcs"), object: nil, queue: nil, using: updateCurrentStop(notif: ))
         
+        //observer to check if still initialising stops
+        NotificationCenter.default.addObserver(forName: Notification.Name("loading"), object: nil, queue: nil, using: showLoading(notif: ))
+
         //if user selects
         //use newJourney.chooseSvcRoute(chosenInt: selected)
     }
@@ -34,6 +37,34 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
         print("Memory warning received")
+    }
+    
+    func showLoading(notif: Notification) -> Void{
+        //guard helps deal with optionals
+        guard let userInfo = notif.userInfo, //grab all passed values
+            let loading = userInfo["loading"] as? Bool
+            else{
+                return
+        }
+        
+        if (loading)
+        {
+            //show updating message overlay
+            self.showWaitOverlayWithText("Performing First Time Setup...")
+        }
+        else
+        {
+            //remove overlays
+            self.removeAllOverlays()
+        }
+    }
+    
+    func postLoad(loading: Bool)
+    {
+        NotificationCenter.default.post(
+            name: Notification.Name("loading"),
+            object: nil,
+            userInfo: ["loading":loading])
     }
     
     func updateCurrentStop(notif: Notification) -> Void
@@ -87,8 +118,7 @@ class ViewController: UIViewController {
         {
             print("Updating database")
             
-            //show updating message overlay
-            self.showWaitOverlayWithText("Performing First Time Setup...")
+            postLoad(loading: true)
             
             //if requires update, all methods will run at the same time, causing app to crash
             //possibly due to many accessingz of coredata ––> need to find a way to separate them
@@ -101,6 +131,8 @@ class ViewController: UIViewController {
             print("Database up to date")
         }
     }
+    
+    
     
     func needsUpdate() -> Bool
     {
@@ -229,16 +261,16 @@ class ViewController: UIViewController {
                     for routeSvc in routeBusSvcArray! {
                         self.initBusServiceData(svcNo: routeSvc.svcNo!)
                         print(routeSvc.svcNo!)
+                        
+
                     }
+                    
                     //self.appDelegate.saveContext()
-                    print("Loaded all bus services")
                     
                 }
                 catch let jsonErr { print("Failed to request bus service data", jsonErr)}
             }
-            //remove updating loading screen message ––– inaccurate, will have to use dispatch groups and pass as parameters
-            //https://stackoverflow.com/questions/35906568/wait-until-swift-for-loop-with-asynchronous-network-requests-finishes-executing
-            self.removeAllOverlays()
+
         }
         task.resume()
     }
@@ -296,6 +328,14 @@ class ViewController: UIViewController {
                         
                         while (i<=routeCount)
                         {
+                            
+                            
+                            //hard code loading
+                            if (svcNo != "NR8")
+                            {
+                                self.postLoad(loading: true)
+                            }
+
                             //create bus service route
                             let busServiceRoute = BusServiceRoute(context : context) //need to prevent duplicates later <<<<
                             busServiceRoute.svcNo=svcNo
@@ -328,6 +368,8 @@ class ViewController: UIViewController {
                                         break //prevent duplicate stops in bus service route
                                     }
                                 }
+                                
+                                
                             }
                             
                             svcs.append(busServiceRoute)
@@ -336,12 +378,27 @@ class ViewController: UIViewController {
                             i = i+1 //increase count
                         }
                         self.appDelegate.saveContext()//save context once in the external initall method to optimise loading
+                        
+                        
+                        print("Loaded service")
+                        
+                        
+                        //hard code to notify loading complete, no time for proper implementation
+                        
+                        if (svcNo == "NR8")
+                        {
+                            self.postLoad(loading: false)
+
+                        }
+
                     }
+
                 }
                 catch let jsonErr { print("Failed to request bus stop data", jsonErr)}
             }
         }
         task.resume()
+
         /*
          print(svcNo+"'s first route\n––––––––––––––")
          self.printRoute(svcNo: svcNo, routeNo: 1)
