@@ -118,6 +118,8 @@ public class Journey{
     {
         chosenServiceRoute = availSvcs(stop: currStop!)[chosenInt]
         setRouteDestinations(busSvcRoute: chosenServiceRoute!)
+        
+        
         //tvc change to chosen svcroute
         updateSelectViewSvcsInfo() //updates viewcontroller with new destinations
     }
@@ -158,14 +160,7 @@ public class Journey{
     
     //user input (selects the bus stop to set the route of the bus journey) ––> bus service no and route will be locked in too
     //selects from trimmed list of from current stop to end, to create the bus journey route
-    public func selectBusRoute(selectedIndex : Int16)
-    {
-        setRoute(end: selectedIndex, route: routeDestinations!)
-    }
-    
-    
-    //from selection, create a bus journey route proceed to journey state
-    private func setRoute(end: Int16, route: [BusStop])
+    public func selectBusRoute(end : Int16)
     {
         var journeyRoute : [BusStop] = []
         
@@ -173,7 +168,7 @@ public class Journey{
         //trim to create journey route from service's route
         while (i <= end)
         {
-            journeyRoute.append(route[i])
+            journeyRoute.append(routeDestinations![i])
             i = i+1
         }
         
@@ -188,6 +183,7 @@ public class Journey{
         //vc.segue or some shit l0l0l0
         //not required because button already does so?
     }
+
     
     
     func setCurrStop(stop: BusStop?)
@@ -204,10 +200,23 @@ public class Journey{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //public functions
 
 //get the available bus services for a particular bus stop
-
 public func availSvcs(stop: BusStop) -> [BusServiceRoute]
 {
     return (stop.hasServicesRoute?.array as? [BusServiceRoute])!

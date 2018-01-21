@@ -28,6 +28,8 @@ class ViewController: UIViewController {
         //observer to check if still initialising stops
         NotificationCenter.default.addObserver(forName: Notification.Name("loading"), object: nil, queue: nil, using: showLoading(notif: ))
 
+        
+        
         //if user selects
         //use newJourney.chooseSvcRoute(chosenInt: selected)
     }
