@@ -20,7 +20,7 @@ public class Journey{
     
     private var selectState : JourneyState!
     private var inJourneyState : JourneyState!
-    private var reachingState : JourneyState!
+    private var alertState : JourneyState!
     private var reachedState : JourneyState!
     
     private var currLat : Double
@@ -45,9 +45,9 @@ public class Journey{
         busRoute = nil
         
         selectState = SelectState(myJourney: self) //change to subclass later
-        inJourneyState = SelectState(myJourney: self)
-        reachingState = SelectState(myJourney: self)
-        reachedState = SelectState(myJourney: self)
+        inJourneyState = InJourneyState(myJourney: self)
+        alertState = AlertState(myJourney: self)
+        reachedState = ReachedState(myJourney: self)
         
         state = selectState
         
@@ -56,48 +56,6 @@ public class Journey{
     }
     
     
-    //getters
-    public func getCurrStop() -> BusStop?
-    {
-        return currStop
-    }
-    
-    public func getReachedStop() -> BusStop?
-    {
-        return reachedStop
-    }
-    
-    
-    
-    
-    //derived-ish attributes?
-    private func getSvcNo() -> String
-    {
-        return (chosenServiceRoute?.svcNo)!
-    }
-    private func getSvcRoute() -> Int16
-    {
-        return (chosenServiceRoute?.routeNo)!
-    }
-    
-    private func prevStopIndex() -> Int //??? correct???
-    {
-        let i = busRoute?.index(of: reachedStop!) //finding index of the stop user is at
-        
-        return i!
-    }
-    private func lastStopIndex() -> Int
-    {
-        let i = (busRoute?.count)!-1
-        
-        return i
-    }
-    func stopsLeft() -> Int //??? not sure if its correct
-    {
-        return lastStopIndex() - prevStopIndex()
-    }
-    
-    //proper functions
     
     private func startLoc()
     {
@@ -177,9 +135,9 @@ public class Journey{
     
     
     
-    
-    
-    
+    /*––––––––––––––––––––––––––––
+        SELECTION STATE FUNCTIONS
+ 	–––––––––––––––––––––––––––––*/
     
     //user input(select from tvc) to run this method, will auto select 0 if first reach
     //upon service switch, need to update the tableview controller with routeDestinations
@@ -251,16 +209,40 @@ public class Journey{
         //not required because button already does so?
     }
     
-    func updateCurrStop(stop: BusStop?)
-    {
-        currStop = stop
-    }
     
-    func updateReachedStop(stop: BusStop)
-    {
-        reachedStop = stop
-    }
     
+    //getters & derived-ish attributes?
+
+    public func getCurrStop() -> BusStop?
+    {
+        return currStop
+    }
+    public func getReachedStop() -> BusStop?
+    {
+        return reachedStop
+    }
+    private func getSvcNo() -> String
+    {
+        return (chosenServiceRoute?.svcNo)!
+    }
+    private func getSvcRoute() -> Int16
+    {
+        return (chosenServiceRoute?.routeNo)!
+    }
+    private func prevStopIndex() -> Int //??? correct???
+    {
+        let i = busRoute?.index(of: reachedStop!) //finding index of the stop user is at
+        return i!
+    }
+    private func lastStopIndex() -> Int
+    {
+        let i = (busRoute?.count)!-1
+        return i
+    }
+    func stopsLeft() -> Int //??? not sure if its correct
+    {
+        return lastStopIndex() - prevStopIndex()
+    }
 }
 
 
@@ -279,7 +261,13 @@ public class Journey{
 
 
 
-//public functions
+
+
+
+
+/*––––––––––––––
+ PUBLIC FUNCTIONS
+ –––––––––––––––*/
 
 //get the available bus services for a particular bus stop
 public func availSvcs(stop: BusStop) -> [BusServiceRoute]
