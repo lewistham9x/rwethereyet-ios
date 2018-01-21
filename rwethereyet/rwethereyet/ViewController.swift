@@ -22,10 +22,10 @@ class ViewController: UIViewController {
         initData()
         
         
-        //observer to update current stop –– will current bus stop and its available services
-        NotificationCenter.default.addObserver(forName: Notification.Name("updateSvcs"), object: nil, queue: nil, using: updateCurrentStop(notif: ))
+        //observer to get selection possibilities based on current stop
+        NotificationCenter.default.addObserver(forName: Notification.Name("postSelectionInfo"), object: nil, queue: nil, using: updateSelectionInfo(notif: ))
         
-        //observer to check if still initialising stops
+        //observer to get initstop loading status
         NotificationCenter.default.addObserver(forName: Notification.Name("loading"), object: nil, queue: nil, using: showLoading(notif: ))
 
         
@@ -69,7 +69,7 @@ class ViewController: UIViewController {
             userInfo: ["loading":loading])
     }
     
-    func updateCurrentStop(notif: Notification) -> Void
+    func updateSelectionInfo(notif: Notification) -> Void
     {
         
         //guard helps deal with optionals

@@ -10,78 +10,34 @@ import Foundation
 
 protocol JourneyState{ //applying state pattern
     init(myJourney : Journey)
-    func onLocationChanged(newLat: Double, newLon: Double)
-    func checkStop(lat: Double, lon: Double)
-    func changeStop(stop: BusStop?, legible: Bool)
+    func stopIsGud() -> Bool //checks if the stop the user is at is useful to the current state's progress
     func notify()
     func updateView()
 }
 
-class SelectState: JourneyState{
-    
+class SelectState: JourneyState
+{
     var myJourney : Journey
 
     required init(myJourney : Journey) {
         self.myJourney = myJourney
     }
     
-    func onLocationChanged(newLat: Double, newLon: Double) {
-        checkStop(lat: newLat, lon: newLon)
-        //in certain states, may need to show how far away from next stop in graphic
-    }
-    
-    func checkStop(lat: Double, lon: Double) {
-        let stopList = getAllStops()
-        
-        print("checking if near any stop")
-        
-        var currStop : BusStop?
-
-        //check if the user is at the location of any bus stop
-        for stop in stopList
-        {
-            if (isAtStop(stop: stop, lat: lat, lon: lon)){
-                //prevStop only changes to anything within bus stop list if its in select state
-                //select state changestop will cause an update in bus services displayed
-                //if its in other state, it will check if its the next stop in the route first
-                //need to update receiver
-                print("Stop Detected: "+stop.name!)
-                
-                currStop = stop
-                break
-            }
-        }
-        
+    func stopIsGud() -> Bool
+    {
+        let currStop = myJourney.getCurrStop()
+        let reachedStop = myJourney.getReachedStop()
         
         //sends nil if not at a particular bus stop
-        if (currStop != nil && currStop != myJourney.getReachedStop()) //if stop is eligible  (is within the correct route or
+        if (currStop != nil && currStop != reachedStop) //if stop is eligible  (is within the correct route or
         {
-            changeStop(stop: currStop, legible: true)
-            print("Stop is eligible")
+            print("Bus is at a new stop")
+            return true
         }
         else
         {
-            changeStop(stop: currStop, legible: false)
-            print("lol no it not")
-        }
-    }
-    
-    
-    
-    func changeStop(stop: BusStop?, legible: Bool) {
-        
-        myJourney.setCurrStop(stop: stop) //sets current stop whether its eligible or not
-        if (legible) //in this case legible means that the user is at a bus stop
-        {
-            myJourney.setReachedStop(stop: stop!)
-            
-            //will show first service by default
-            //upon user selection will have to change bus service and route
-            myJourney.chooseSvcRoute(chosenInt: 0)
-        }
-        else
-        {
-            //do nothing, wont update to show no bus services
+            print("Bus is not at new stop")
+            return false
         }
     }
     
