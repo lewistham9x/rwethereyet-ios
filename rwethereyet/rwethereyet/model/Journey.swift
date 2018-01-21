@@ -23,15 +23,15 @@ public class Journey{
     private var alertState : JourneyState!
     private var reachedState : JourneyState!
     
+    let stopsToAlert = 1 //configurable stops before alert state–– to implement configurable in the future
+    
     private var currLat : Double
     private var currLon : Double
     private var reachedStop : BusStop? //reached stop is the last stop that user reached (any stop or within the route depending on the state), will be nil if user hasnt reached a stop
     
     private var currStop : BusStop? //curr stop is the stop the user is at NOW, user can be not at any stop at any point of time    
     
-    //private var availSvcs : [BusServiceRoute]? derived from prevStop
     private var chosenServiceRoute : BusServiceRoute? //required to save service number
-    
     
     var routeDestinations : [BusStop]?
     var busRoute : [BusStop]?
@@ -44,7 +44,7 @@ public class Journey{
         
         busRoute = nil
         
-        selectState = SelectState(myJourney: self) //change to subclass later
+        selectState = SelectState(myJourney: self)
         inJourneyState = InJourneyState(myJourney: self)
         alertState = AlertState(myJourney: self)
         reachedState = ReachedState(myJourney: self)
@@ -84,11 +84,7 @@ public class Journey{
         
         if (isAtAStop(lat: newLat, lon: newLon))
         {
-            if (state.stopIsGud())
-            {
-                reachedStop=currStop
-                selectSvc(svcInt: 0)
-            }
+            state.reachedGudStop()
         }
     }
     
@@ -129,6 +125,83 @@ public class Journey{
     
     
     
+    /*––––––––––––––––––––––––––––––––
+        JOURNEY & ALERT STATE FUNCTIONS
+     –––––––––––––––––––––––––––––––––*/
+    
+    //if user reaches the next stop
+    public func reachStop()
+    {
+        if isWithinRoute()
+        {
+            if reachedNextStop()
+            {
+                postJourneyReach()
+                state.checkStopsLeft()
+            }
+        }
+    }
+    
+    private func isWithinRoute() -> Bool
+    {
+        let stopList = routeStops(svc: chosenServiceRoute!)
+        
+        let succ = stopList.contains(currStop!)//checks if the current route contains the current stop
+        
+        return succ
+    }
+    
+    private func reachedNextStop() -> Bool
+    {
+        //new algo: check if the index of currstop is bigger than reachedstop
+        //helps if location is off when it passes a stop, will be able to continue the journey, instead of checking if the bus is at the location of prevStop+1
+        
+        let stopList = routeStops(svc: chosenServiceRoute!)
+
+        var succ = false
+        
+        
+        //get the indeces of the current bus stop and previously reached bus stop, if current is higher it takes over
+        
+        let currIndex = getStopIndex(stop: currStop!, array: stopList)
+        let prevIndex = prevStopIndex()
+        
+        if (prevIndex>currIndex)
+        {
+            reachedStop = currStop!
+            succ = true
+        }
+        
+        return succ //hehexd
+    }
+    
+    private func postJourneyReach()
+    {
+        //post update to viewcontroller to show new stop info and stops remaining
+        //maybe can post the stop after, so that can do the graphic
+        //future feature: will have 3 dots in the journey screen
+        //first represents current, second represents next and third represents destination
+        //can show distance to the next stop(between first and second)
+        //can show stops left after the next stop (between second and third)
+        //distance to next stop will be denoted by a little moving car graphic
+        //will post the final stop, the next stop and distance to it to accomodate this future feature
+        let finalStop = busRoute![lastStopIndex()]
+        let nextStop = busRoute![prevStopIndex()+1]
+        let distanceToNext = 0.0
+        
+        NotificationCenter.default.post(
+            name: Notification.Name("postJourneyReach"),
+            object: nil,
+            userInfo: ["reach":reachedStop!,"left":stopsLeft(),"final":finalStop,"next":nextStop,"distance":distanceToNext])
+    }
+    
+    
+    //journey state to alert state
+    public func toAlertState()
+    {
+        self.state = alertState
+    }
+
     
     
     
@@ -211,11 +284,19 @@ public class Journey{
     
     
     
-    //getters & derived-ish attributes?
+    //setters, getters & derived-ish attributes?
 
+    public func setCurrStop(stop: BusStop)
+    {
+        currStop=stop
+    }
     public func getCurrStop() -> BusStop?
     {
         return currStop
+    }
+    public func updateReachedStop(stop: BusStop)
+    {
+        reachedStop=stop
     }
     public func getReachedStop() -> BusStop?
     {
@@ -269,11 +350,25 @@ public class Journey{
  PUBLIC FUNCTIONS
  –––––––––––––––*/
 
+//get the index of a certain stop within its array
+private func getStopIndex(stop: BusStop, array: [BusStop]) -> Int
+{
+    let i = array.index(of: stop) //finding index of the stop user is at
+    return i!
+}
+
 //get the available bus services for a particular bus stop
 public func availSvcs(stop: BusStop) -> [BusServiceRoute]
 {
     return (stop.hasServicesRoute?.array as? [BusServiceRoute])!
 }
+
+//get the bus route for a particular bus service
+public func routeStops(svc: BusServiceRoute) -> [BusStop]
+{
+    return (svc.hasStops?.array as? [BusStop])!
+}
+
 
 public func isAtStop(stop: BusStop, lat: Double, lon: Double) -> Bool
 {

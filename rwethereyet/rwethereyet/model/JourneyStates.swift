@@ -10,7 +10,7 @@ import Foundation
 
 protocol JourneyState{ //applying state pattern
     init(myJourney : Journey)
-    func stopIsGud() -> Bool //checks if the stop the user is at is useful to the current state's progress
+    func reachedGudStop() //checks if the stop the user is at is useful to the current state's progress
     func checkStopsLeft()
 }
 
@@ -22,7 +22,7 @@ class SelectState: JourneyState
         self.myJourney = myJourney
     }
     
-    func stopIsGud() -> Bool
+    func reachedGudStop()
     {
         let currStop = myJourney.getCurrStop()
         let reachedStop = myJourney.getReachedStop()
@@ -31,12 +31,12 @@ class SelectState: JourneyState
         if (currStop != nil && currStop != reachedStop) //if stop is eligible  (is within the correct route or
         {
             print("Bus is at a new stop")
-            return true
+            myJourney.updateReachedStop(stop: currStop!)
+            myJourney.selectSvc(svcInt: 0)
         }
         else
         {
             print("Bus is not at new stop")
-            return false
         }
     }
     
@@ -53,12 +53,16 @@ class InJourneyState: JourneyState
         self.myJourney = myJourney
     }
     
-    func stopIsGud() -> Bool {
-        <#code#>
+    func reachedGudStop() {
+        myJourney.reachStop()
     }
     
-    func checkStopsLeft() {
-        <#code#>
+    func checkStopsLeft()
+    {
+        if myJourney.stopsLeft() == myJourney.stopsToAlert
+        {
+            myJourney.toAlertState()
+        }
     }
 }
 
@@ -70,12 +74,12 @@ class AlertState: JourneyState
         self.myJourney = myJourney
     }
     
-    func stopIsGud() -> Bool {
-        <#code#>
+    func reachedGudStop(){
+        myJourney.reachStop()
     }
     
     func checkStopsLeft() {
-        <#code#>
+        
     }
 }
 
@@ -87,12 +91,11 @@ class ReachedState: JourneyState
         self.myJourney = myJourney
     }
     
-    func stopIsGud() -> Bool {
-        <#code#>
+    func reachedGudStop(){
     }
     
     func checkStopsLeft() {
-        <#code#>
+        
     }
 }
 
