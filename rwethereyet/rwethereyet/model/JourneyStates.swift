@@ -79,7 +79,19 @@ class AlertState: JourneyState
     }
     
     func checkStopsLeft() {
-        
+        if myJourney.stopsLeft() > 0
+        {
+            //post notif to alert ––> VC should change image and pop notification, maybe alarm
+            myJourney.postJourneyAlert()
+        }
+        else if myJourney.stopsLeft() == 0
+        {
+            //post notif to end ––> VC should segue to final screen, maybe alarm, maybe kill location service or journey object
+            myJourney.postJourneyEnd()
+
+            myJourney.toReachedState()
+        }
+
     }
 }
 
@@ -92,10 +104,11 @@ class ReachedState: JourneyState
     }
     
     func reachedGudStop(){
+        //do nothing
     }
     
     func checkStopsLeft() {
-        
+        //do nothing l0l0l0
     }
 }
 

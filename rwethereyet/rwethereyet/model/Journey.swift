@@ -175,7 +175,7 @@ public class Journey{
         return succ //hehexd
     }
     
-    private func postJourneyReach()
+    public func postJourneyReach()
     {
         //post update to viewcontroller to show new stop info and stops remaining
         //maybe can post the stop after, so that can do the graphic
@@ -195,6 +195,22 @@ public class Journey{
             userInfo: ["reach":reachedStop!,"left":stopsLeft(),"final":finalStop,"next":nextStop,"distance":distanceToNext])
     }
     
+    public func postJourneyAlert()
+    {
+        NotificationCenter.default.post(
+            name: Notification.Name("postJourneyAlert"),
+            object: nil,
+            userInfo: ["alert":true])
+    }
+    
+    public func postJourneyEnd()
+    {
+        NotificationCenter.default.post(
+            name: Notification.Name("postJourneyAlert"),
+            object: nil,
+            userInfo: ["end":true])
+    }
+    
     
     //journey state to alert state
     public func toAlertState()
@@ -203,8 +219,12 @@ public class Journey{
     }
 
     
-    
-    
+    //alert state to reached state
+    public func toReachedState()
+    {
+        self.state = reachedState
+    }
+
     
     
     
