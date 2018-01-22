@@ -10,31 +10,67 @@ import UIKit
 import SwiftLocation
 import SwiftOverlays
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
+    @IBOutlet weak var lblBusStopName: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     
-    var newJourney = Journey()
+    var svcList = [] as! [BusServiceRoute]
+    var stopList = [] as! [BusStop]
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(stopList.count)
+        return stopList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! BusStopTableViewCell
+        cell.lblCellBusStopName.text = stopList[indexPath.row].name
+        return cell
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        initData()
-        
         
         //observer to get selection possibilities based on current stop
         NotificationCenter.default.addObserver(forName: Notification.Name("postSelectionInfo"), object: nil, queue: nil, using: updateSelectionInfo(notif: ))
         
+        // Do any additional setup after loading the view, typically from a nib.
+        initData()
         //observer to get initstop loading status
         NotificationCenter.default.addObserver(forName: Notification.Name("loading"), object: nil, queue: nil, using: showLoading(notif: ))
-
         
-        
-        //if user selects
-        //use newJourney.chooseSvcRoute(chosenInt: selected)
     }
-
     
+    func updateSelectionInfo(notif: Notification) -> Void //what happens when u find a stop OR select a bus service
+    {
+        //set the datasource for both the table and collection
+        
+        //update tvc
+        
+        
+        //guard helps deal with optionals
+        guard let userInfo = notif.userInfo, //grab all passed values
+            let lastStop = userInfo["reach"] as? BusStop,
+            let destinations = userInfo["dest"] as? [BusStop]!
+            else{
+                return
+        }
+        
+        svcList = availSvcs(stop: lastStop)
+        //TO DO: populate collection view
+        stopList = destinations
+        lblBusStopName.text = lastStop.name
+        
+        print(stopList.count)
+        
+        tableView.reloadData()
+        
+    }
+    
+    let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
+    var newJourney = Journey()
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -69,36 +105,8 @@ class ViewController: UIViewController {
             userInfo: ["loading":loading])
     }
     
-    func updateSelectionInfo(notif: Notification) -> Void
-    {
-        
-        //guard helps deal with optionals
-        guard let userInfo = notif.userInfo, //grab all passed values
-            let lastStop = userInfo["reach"] as? BusStop,
-            let destinations = userInfo["dest"] as? [BusStop]!
-            else{
-                return
-        }
-        
-        
-        lbLocation.text = lastStop.name
-        let svcs = availSvcs(stop: lastStop)
-        
-        for svc in svcs
-        {
-            print(svc.svcNo!+", route "+String(svc.routeNo))
-        }
-        
-        
-        print("Current Stop: "+lastStop.name!+" ("+lastStop.stopNo!+")")
-        
-        print("select your destination:")
-        for stop in destinations
-        {
-            print(stop.name!+" ("+stop.stopNo!+")")
-        }
-        
-    }
+    
+ 
     
     
     
@@ -112,7 +120,7 @@ class ViewController: UIViewController {
     
     
     
-    
+    //icode below is just initialising data from database dont touch l0l
     
     func initData()
     {
@@ -439,9 +447,7 @@ class ViewController: UIViewController {
     }
     @IBAction func btPrintStopsServices(_ sender: Any) {
         printSvcs(name: tbSvc.text!)
-    }
-    @IBOutlet weak var lbLocation: UILabel!
-    
+    }    
     
     func printStopNames()
     {

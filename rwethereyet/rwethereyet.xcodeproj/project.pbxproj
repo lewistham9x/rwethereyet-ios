@@ -21,6 +21,7 @@
 		1DA257792003732C00F8CA36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DA257772003732C00F8CA36 /* LaunchScreen.storyboard */; };
 		1DA257842003732C00F8CA36 /* rwethereyetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA257832003732C00F8CA36 /* rwethereyetTests.swift */; };
 		1DA2578F2003732C00F8CA36 /* rwethereyetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2578E2003732C00F8CA36 /* rwethereyetUITests.swift */; };
+		1DAA29AD2015DD3000B7C255 /* BusStopTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAA29AC2015DD3000B7C255 /* BusStopTableViewController.swift */; };
 		1DFF4D11200A44C40076B333 /* RouteBusServiceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFF4D10200A44C40076B333 /* RouteBusServiceResponse.swift */; };
 		1DFF4D19200A6E300076B333 /* RouteBusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFF4D18200A6E300076B333 /* RouteBusService.swift */; };
 		4579553FFA039F933DB3DDE7 /* Pods_rwethereyetUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7368FC86E84AEE44ED54C01 /* Pods_rwethereyetUITests.framework */; };
@@ -68,6 +69,7 @@
 		1DA2578A2003732C00F8CA36 /* rwethereyetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rwethereyetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DA2578E2003732C00F8CA36 /* rwethereyetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rwethereyetUITests.swift; sourceTree = "<group>"; };
 		1DA257902003732C00F8CA36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1DAA29AC2015DD3000B7C255 /* BusStopTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusStopTableViewController.swift; sourceTree = "<group>"; };
 		1DFF4D10200A44C40076B333 /* RouteBusServiceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteBusServiceResponse.swift; path = rwethereyet/model/API/RouteBusServiceResponse.swift; sourceTree = "<group>"; };
 		1DFF4D18200A6E300076B333 /* RouteBusService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RouteBusService.swift; path = rwethereyet/model/API/RouteBusService.swift; sourceTree = "<group>"; };
 		2EEA5985D8CA8CC925E24C2D /* Pods-rwethereyetUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rwethereyetUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-rwethereyetUITests/Pods-rwethereyetUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				1D6BC3242011CB0000AF208C /* Data.swift */,
 				1D6BC3282011EED400AF208C /* JourneyStates.swift */,
 				1D6BC32A2012455C00AF208C /* DataInitialiser.swift */,
+				1DAA29AC2015DD3000B7C255 /* BusStopTableViewController.swift */,
 			);
 			path = rwethereyet;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				1D09D7F62009B9D3006D079D /* RouteBusStop.swift in Sources */,
 				1D6BC3292011EED400AF208C /* JourneyStates.swift in Sources */,
 				1DA2576E2003732C00F8CA36 /* ViewController.swift in Sources */,
+				1DAA29AD2015DD3000B7C255 /* BusStopTableViewController.swift in Sources */,
 				1DA2576C2003732C00F8CA36 /* AppDelegate.swift in Sources */,
 				1D6BC32B2012455C00AF208C /* DataInitialiser.swift in Sources */,
 				1D6BC3232011C4BB00AF208C /* Distance.swift in Sources */,
