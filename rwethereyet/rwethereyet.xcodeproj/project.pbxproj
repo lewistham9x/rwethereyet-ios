@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D09D7F62009B9D3006D079D /* RouteBusStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D09D7F52009B9D3006D079D /* RouteBusStop.swift */; };
+		1D1397DA20160FB700A9D433 /* thinking3d.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1D1397D920160FB700A9D433 /* thinking3d.gif */; };
 		1D6BC3212011C00600AF208C /* Journey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6BC3202011C00600AF208C /* Journey.swift */; };
 		1D6BC3232011C4BB00AF208C /* Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6BC3222011C4BB00AF208C /* Distance.swift */; };
 		1D6BC3252011CB0000AF208C /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6BC3242011CB0000AF208C /* Data.swift */; };
@@ -50,6 +51,7 @@
 		028A499417E8F78F5CE98A7F /* Pods-rwethereyetUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rwethereyetUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-rwethereyetUITests/Pods-rwethereyetUITests.release.xcconfig"; sourceTree = "<group>"; };
 		111D5A6333562F3E36DC5971 /* Pods_rwethereyetTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rwethereyetTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D09D7F52009B9D3006D079D /* RouteBusStop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouteBusStop.swift; path = rwethereyet/model/API/RouteBusStop.swift; sourceTree = "<group>"; };
+		1D1397D920160FB700A9D433 /* thinking3d.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = thinking3d.gif; sourceTree = "<group>"; };
 		1D6BC3202011C00600AF208C /* Journey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Journey.swift; path = model/Journey.swift; sourceTree = "<group>"; };
 		1D6BC3222011C4BB00AF208C /* Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Distance.swift; path = model/Distance.swift; sourceTree = "<group>"; };
 		1D6BC3242011CB0000AF208C /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Data.swift; path = model/Data.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				1D6BC3282011EED400AF208C /* JourneyStates.swift */,
 				1D6BC32A2012455C00AF208C /* DataInitialiser.swift */,
 				1DAA29AC2015DD3000B7C255 /* BusStopTableViewController.swift */,
+				1D1397D920160FB700A9D433 /* thinking3d.gif */,
 			);
 			path = rwethereyet;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DA257792003732C00F8CA36 /* LaunchScreen.storyboard in Resources */,
+				1D1397DA20160FB700A9D433 /* thinking3d.gif in Resources */,
 				1DA257762003732C00F8CA36 /* Assets.xcassets in Resources */,
 				1DA257712003732C00F8CA36 /* Main.storyboard in Resources */,
 			);
@@ -348,12 +352,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-rwethereyet/Pods-rwethereyet-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftOverlays/SwiftOverlays.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLocation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftOverlays.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,19 +7,39 @@
 //
 
 import UIKit
+import SwiftyGif
 import SwiftLocation
 import SwiftOverlays
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var lblBusStopName: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var imageView: UIImageView!
+    
+    
+    //setter for collection view
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return svcList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectioncell", for: indexPath) as! BusServiceCollectionViewCell
+        cell.lblCellBusServiceNumber.text = svcList[indexPath.row].svcNo
+        return cell
+    }
+    
+    //checks for selecting collection view cell
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        newJourney.selectSvc(svcInt: indexPath.row)
+    }
     
     var svcList = [] as! [BusServiceRoute]
     var stopList = [] as! [BusStop]
     
+    //setter for table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(stopList.count)
         return stopList.count
     }
     
@@ -28,9 +48,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.lblCellBusStopName.text = stopList[indexPath.row].name
         return cell
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // A UIImageView with async loading
+        let gifmanager = SwiftyGifManager(memoryLimit:20)
+        let gif = UIImage(gifName: "thinking3d.gif")
+        self.imageView.setGifImage(gif, manager: gifmanager)
+        
         
         //observer to get selection possibilities based on current stop
         NotificationCenter.default.addObserver(forName: Notification.Name("postSelectionInfo"), object: nil, queue: nil, using: updateSelectionInfo(notif: ))
@@ -62,10 +88,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         stopList = destinations
         lblBusStopName.text = lastStop.name
         
-        print(stopList.count)
-        
         tableView.reloadData()
-        
+        collectionView.reloadData()
+        tableView.isHidden = false
+        collectionView.isHidden = false
+        imageView.isHidden = true
     }
     
     let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
