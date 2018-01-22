@@ -263,7 +263,7 @@ public class Journey{
         
         var startIndex = route.index(of: reachedStop!)! //finding index of the stop user is at
 
-        var i = startIndex
+        var i = startIndex+1
         
         var destinations : [BusStop] = []
         
