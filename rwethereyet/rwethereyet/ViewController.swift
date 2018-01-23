@@ -48,6 +48,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.lblCellBusStopName.text = stopList[indexPath.row].name
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +99,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         collectionView.isHidden = false
         imageView.isHidden = true
     }
+    
+    
     
     let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
     var newJourney = Journey()
@@ -242,7 +249,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         var busStopList = result as! [BusStop]
                         
                         for routeStop in routeBusStopArray {
-                            //print("Creating CoreData Object for "+routeStop.name!)
+                            //print("Creating CoreData Object for  "+routeStop.name!)
                             
                             let busStop = BusStop(context : context)
                             busStop.latitude = Double(routeStop.latitude)!
