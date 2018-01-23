@@ -119,15 +119,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             //remove overlays
             self.removeAllOverlays()
         }
-    }
-    
-    func postLoad(loading: Bool)
-    {
-        NotificationCenter.default.post(
-            name: Notification.Name("loading"),
-            object: nil,
-            userInfo: ["loading":loading])
-    }
-    
+    }   
 }
 
