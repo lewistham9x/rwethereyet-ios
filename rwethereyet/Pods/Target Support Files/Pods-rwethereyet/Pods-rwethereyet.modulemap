@@ -1,0 +1,6 @@
+framework module Pods_rwethereyet {
+  umbrella header "Pods-rwethereyet-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,21 @@
+PODS:
+  - SwiftLocation (3.1.0):
+    - SwiftyJSON (~> 4.0.0-alpha.1)
+  - SwiftOverlays (4.0.1)
+  - SwiftyGif (4.0.0)
+  - SwiftyJSON (4.0.0)
+
+DEPENDENCIES:
+  - SwiftLocation (~> 3.1.0)
+  - SwiftOverlays (~> 4.0.0)
+  - SwiftyGif (~> 4.0)
+
+SPEC CHECKSUMS:
+  SwiftLocation: 8f5ef4f510a45e43239de57a3145b3669301e898
+  SwiftOverlays: dae1efb029c9401d357044dd70fd2cfce791fcb0
+  SwiftyGif: 14c0e2dddb1b51da4919b68f7ad97a1c45785460
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+
+PODFILE CHECKSUM: 801a983c381d9d49008cae8ba06b6e11b724a058
+
+COCOAPODS: 1.3.1
