@@ -15,6 +15,7 @@
 		1D6BC3292011EED400AF208C /* JourneyStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6BC3282011EED400AF208C /* JourneyStates.swift */; };
 		1D6BC32B2012455C00AF208C /* DataInitialiser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6BC32A2012455C00AF208C /* DataInitialiser.swift */; };
 		1D71B4B820170BFC00D675D0 /* InJourneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D71B4B720170BFC00D675D0 /* InJourneyViewController.swift */; };
+		1D75E593201F15C800892C8F /* spinnerthinking.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1D75E592201F15C700892C8F /* spinnerthinking.gif */; };
 		1DA2576C2003732C00F8CA36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2576B2003732C00F8CA36 /* AppDelegate.swift */; };
 		1DA2576E2003732C00F8CA36 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2576D2003732C00F8CA36 /* ViewController.swift */; };
 		1DA257712003732C00F8CA36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DA2576F2003732C00F8CA36 /* Main.storyboard */; };
@@ -59,6 +60,7 @@
 		1D6BC3282011EED400AF208C /* JourneyStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JourneyStates.swift; path = model/JourneyStates.swift; sourceTree = "<group>"; };
 		1D6BC32A2012455C00AF208C /* DataInitialiser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DataInitialiser.swift; path = model/DataInitialiser.swift; sourceTree = "<group>"; };
 		1D71B4B720170BFC00D675D0 /* InJourneyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InJourneyViewController.swift; sourceTree = "<group>"; };
+		1D75E592201F15C700892C8F /* spinnerthinking.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = spinnerthinking.gif; sourceTree = "<group>"; };
 		1DA257682003732C00F8CA36 /* rwethereyet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rwethereyet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DA2576B2003732C00F8CA36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DA2576D2003732C00F8CA36 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				1D6BC32A2012455C00AF208C /* DataInitialiser.swift */,
 				1DAA29AC2015DD3000B7C255 /* BusStopTableViewController.swift */,
 				1D1397D920160FB700A9D433 /* thinking3d.gif */,
+				1D75E592201F15C700892C8F /* spinnerthinking.gif */,
 				1D71B4B720170BFC00D675D0 /* InJourneyViewController.swift */,
 			);
 			path = rwethereyet;
@@ -323,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DA257792003732C00F8CA36 /* LaunchScreen.storyboard in Resources */,
+				1D75E593201F15C800892C8F /* spinnerthinking.gif in Resources */,
 				1D1397DA20160FB700A9D433 /* thinking3d.gif in Resources */,
 				1DA257762003732C00F8CA36 /* Assets.xcassets in Resources */,
 				1DA257712003732C00F8CA36 /* Main.storyboard in Resources */,

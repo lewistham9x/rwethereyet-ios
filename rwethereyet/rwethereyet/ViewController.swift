@@ -17,6 +17,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //Control definition
     
     @IBOutlet weak var lblBusStopName: UILabel!
+    @IBOutlet weak var lblInstruction: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageView: UIImageView!
@@ -94,9 +95,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.isHidden = false
         collectionView.isHidden = false
         imageView.isHidden = true
+        lblInstruction.isHidden = false
     }
     
     let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
+    
     var newJourney = Journey()
     
     override func didReceiveMemoryWarning() {
@@ -116,7 +119,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if (loading)
         {
             //show updating message overlay
-            self.showWaitOverlayWithText("Performing First Time Setup, please wait a minute.")
+            self.showWaitOverlayWithText("Performing First Time Setup\nPlease wait a minute.")
         }
         else
         {
