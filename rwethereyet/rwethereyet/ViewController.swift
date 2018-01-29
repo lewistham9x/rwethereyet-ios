@@ -13,13 +13,15 @@ import SwiftOverlays
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    
+    //Control definition
+    
     @IBOutlet weak var lblBusStopName: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var aiLoading: UIActivityIndicatorView!
-    
-    
+
     //setter for collection view
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return svcList.count
@@ -50,6 +52,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    //functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,16 +61,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let gif = UIImage(gifName: "thinking3d.gif")
         self.imageView.setGifImage(gif, manager: gifmanager)
         
-        //observer to get selection possibilities based on current stop
-        NotificationCenter.default.addObserver(forName: Notification.Name("postSelectionInfo"), object: nil, queue: nil, using: updateSelectionInfo(notif: ))
         
+        //observer to get initstop loading status
+        NotificationCenter.default.addObserver(forName: Notification.Name("loading"), object: nil, queue: nil, using: checkLoading(notif: ))
         // Do any additional setup after loading the view, typically from a nib.
         initData()
         
-        //observer to get initstop loading status
-        NotificationCenter.default.addObserver(forName: Notification.Name("loading"), object: nil, queue: nil, using: showLoading(notif: ))
-        
+        //observer to get selection possibilities based on current stop
+        NotificationCenter.default.addObserver(forName: Notification.Name("postSelectionInfo"), object: nil, queue: nil, using: updateSelectionInfo(notif: ))
     }
+    
+    
     func updateSelectionInfo(notif: Notification) -> Void //what happens when u find a stop OR select a bus service
     {
         //set the datasource for both the table and collection
@@ -101,7 +105,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("Memory warning received")
     }
     
-    func showLoading(notif: Notification) -> Void{
+    func checkLoading(notif: Notification) -> Void{
         //guard helps deal with optionals
         guard let userInfo = notif.userInfo, //grab all passed values
             let loading = userInfo["loading"] as? Bool
@@ -112,12 +116,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if (loading)
         {
             //show updating message overlay
-            self.showWaitOverlayWithText("Performing First Time Setup...")
+            self.showWaitOverlayWithText("Performing First Time Setup, please wait a minute.")
         }
         else
         {
             //remove overlays
             self.removeAllOverlays()
+            
+            //only update journey info if data is loaded
+            
+            //observer to get initstop loading status
+            newJourney.startLoc()
         }
     }   
 }

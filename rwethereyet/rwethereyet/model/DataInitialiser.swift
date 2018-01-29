@@ -32,6 +32,7 @@ func initData()
     }
     else
     {
+        postLoad(loading: false)
         print("Database up to date")
     }
 }
@@ -165,12 +166,32 @@ func initServiceListData()
 
 func initServiceListComplete(svcs: [String])
 {
-    
+    initAllBusServicesData(svcs: svcs)
 }
 
+func initAllBusServicesData(svcs: [String])
+{
+    let svcCount = svcs.count
 
+    var count = 1
+    
+    var last = false
+    
+    for svc in svcs
+    {
+        if (count == svcCount)
+        {
+            last = true
+        }
+        else
+        {
+            count = count + 1
+        }
+        initBusServiceData(svcNo: svc, last: last)
+    }
+}
 
-func initBusServiceData(svcNo: String)//routecount may have to be checked within here itself, if using method separately. check if .count==0 works instead of relying on getting bus service info<<<<<
+func initBusServiceData(svcNo: String,last: Bool)//routecount may have to be checked within here itself, if using method separately. check if .count==0 works instead of relying on getting bus service info<<<<<
     
     //MUST ensure that THERE ARE BUS STOPS BEFORE EXECUTING THIS METHOD OR WILL CRASH, DO A CHECK LATER
     //need to check if the bus service already exists before adding if not there will be duplicates
@@ -249,43 +270,33 @@ func initBusServiceData(svcNo: String)//routecount may have to be checked within
                                     break //prevent duplicate stops in bus service route
                                 }
                             }
-                            
-                            
                         }
-                        
                         svcs.append(busServiceRoute)
+                        
                         print("Loaded route " +  String(i) + " of "+svcNo)
                         
                         i = i+1 //increase count
                     }
-                    appDelegate.saveContext()//save context once in the external initall method to optimise loading
-                    
-                    
-                    print("Loaded service")
-                    
-                    
-                    //hard code to notify loading complete, no time for proper implementation
-                    
-                    if (svcNo == "NR8")
+                    if (last)
                     {
-                        postLoad(loading: false)
-                        
+                        appDelegate.saveContext()//save context once in the external initall method to optimise loading
+                        initAllBusServicesComplete()
                     }
-                    
                 }
-                
             }
             catch let jsonErr { print("Failed to request bus stop data", jsonErr)}
         }
     }
     task.resume()
-    
-    /*
-     print(svcNo+"'s first route\n––––––––––––––")
-     self.printRoute(svcNo: svcNo, routeNo: 1)
-     */
 }
 
+
+func initAllBusServicesComplete()
+{
+    print("All bus services have been loaded")
+    
+    postLoad(loading: false)
+}
 
     
 func resetCoreData()

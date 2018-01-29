@@ -51,14 +51,12 @@ public class Journey{
         
         state = selectState
         
-        print("checking stops now")
-        startLoc()
+        //startLoc()
     }
     
-    
-    
-    private func startLoc()
+    public func startLoc()
     {
+        print("checking stops now")
         Locator.requestAuthorizationIfNeeded(.always)
         
         Locator.events.listen { newStatus in
