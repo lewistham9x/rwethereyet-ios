@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "rwethereyet/model/Journey.swift"
-            timestampString = "538917866.812149"
+            timestampString = "538925721.120577"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "267"
-            endingLineNumber = "267"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "updateAvailDests(busSvcRoute:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "rwethereyet/model/Journey.swift"
-            timestampString = "538917866.812934"
+            timestampString = "538925721.121015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "340"
-            endingLineNumber = "340"
+            startingLineNumber = "362"
+            endingLineNumber = "362"
             landmarkName = "lastStopIndex()"
             landmarkType = "7">
             <Locations>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "rwethereyet/model/Journey.swift"
-            timestampString = "538917866.813252"
+            timestampString = "538925721.121099"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
+            startingLineNumber = "361"
+            endingLineNumber = "361"
             landmarkName = "lastStopIndex()"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "rwethereyet/model/Journey.swift"
-            timestampString = "538917866.8135099"
+            timestampString = "538925721.121169"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "348"
-            endingLineNumber = "348"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
             landmarkName = "lastStopIndex()"
             landmarkType = "7">
             <Locations>

@@ -41,6 +41,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let lastStopName = newJourney.routeDestinations![(newJourney.routeDestinations?.count)!-1].name!
         let svcNo = svcList[indexPath.row].svcNo!
         self.title = svcNo + " towards " + lastStopName
+        //reset stop count
+        lblInstruction.text = "Service Route"
     }
     
     // change background color when user touches cell

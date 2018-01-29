@@ -95,22 +95,44 @@ public class Journey{
         
         var succ = false
         
+        var nearStops = [] as! [BusStop]
+        
         //check if the user is at the location of any bus stop
         for stop in stopList
         {
-            if (isAtStop(stop: stop, lat: lat, lon: lon))
+            if (isNearStop(stop: stop, lat: lat, lon: lon))
             {
                 //prevStop only changes to anything within bus stop list if its in select state
                 //select state changestop will cause an update in bus services displayed
                 //if its in other state, it will check if its the next stop in the route first
                 //need to update receiver
-                print("Stop Detected: "+stop.name!)
+                print(stop.name!+" is near")
                 
-                currStop = stop
+                nearStops.append(stop)
                 succ = true
-                break
             }
         }
+        
+        if succ //if at a stop, calculate and set curr as the nearest one
+        {
+            var nStop : BusStop = nearStops[0] //neareststop
+            var currDist = distance(lat1: lat, lon1: lon, lat2: nStop.latitude, lon2: nStop.longitude, unit: "K")
+
+            for stop in nearStops
+            {
+                let dist = distance(lat1: lat, lon1: lon, lat2: stop.latitude, lon2: stop.longitude, unit: "K")
+                print(String(dist))
+                if (dist < currDist)
+                {
+                    nStop = stop
+                    currDist = dist
+                 }
+            }
+            
+            print("user is closest to " + nStop.name!)
+            currStop = nStop
+        }
+        
         return succ
     }
     
@@ -397,7 +419,7 @@ public func routeStops(svc: BusServiceRoute) -> [BusStop]
 }
 
 
-public func isAtStop(stop: BusStop, lat: Double, lon: Double) -> Bool
+public func isNearStop(stop: BusStop, lat: Double, lon: Double) -> Bool
 {
     if (withinRadius(stop: stop,lat: lat,lon: lon,rad: 50)) //to make radius customisable in the future as a sensitivity feature, by default, the current fine-tuned accurate radius is 50m
     {
