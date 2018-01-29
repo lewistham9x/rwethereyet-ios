@@ -114,7 +114,10 @@ public class Journey{
         return succ
     }
     
-    
+    public func getUpdatedPost() //get updated info
+    {
+        postJourneyReach()
+    }
     
     
     
@@ -223,7 +226,7 @@ public class Journey{
         self.state = reachedState
     }
 
-    
+
     
     
     /*––––––––––––––––––––––––––––
@@ -335,7 +338,13 @@ public class Journey{
     }
     private func lastStopIndex() -> Int
     {
-        let i = (busRoute?.count)!-1
+        var i = 0
+        
+        if busRoute?.isEmpty == false
+        {
+            i = (busRoute?.count)! - 1
+        }
+        
         return i
     }
     func stopsLeft() -> Int //??? not sure if its correct

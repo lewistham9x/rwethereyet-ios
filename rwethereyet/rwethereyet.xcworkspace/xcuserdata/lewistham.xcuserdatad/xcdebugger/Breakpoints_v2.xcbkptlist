@@ -10,13 +10,125 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "rwethereyet/model/Journey.swift"
-            timestampString = "538908752.441416"
+            timestampString = "538913294.250489"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
             landmarkName = "updateAvailDests(busSvcRoute:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "rwethereyet/model/Journey.swift"
+            timestampString = "538913294.251748"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "340"
+            endingLineNumber = "340"
+            landmarkName = "lastStopIndex()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "rwethereyet.Journey.(lastStopIndex in _3C5547D42B6147DFDACF3DC280B8F514)() -&gt; Swift.Int"
+                  moduleName = "rwethereyet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lewistham/Documents/GitHub/rwethereyet-ios/rwethereyet/rwethereyet/model/Journey.swift"
+                  timestampString = "538912620.422737"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "341"
+                  endingLineNumber = "341"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "rwethereyet.Journey.(lastStopIndex in _3C5547D42B6147DFDACF3DC280B8F514)() -&gt; Swift.Int"
+                  moduleName = "rwethereyet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lewistham/Documents/GitHub/rwethereyet-ios/rwethereyet/rwethereyet/model/Journey.swift"
+                  timestampString = "538912620.4259239"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "341"
+                  endingLineNumber = "341"
+                  offsetFromSymbolStart = "161">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "rwethereyet/model/Journey.swift"
+            timestampString = "538913294.252156"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "339"
+            endingLineNumber = "339"
+            landmarkName = "lastStopIndex()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "rwethereyet/model/Journey.swift"
+            timestampString = "538913294.252514"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "348"
+            endingLineNumber = "348"
+            landmarkName = "lastStopIndex()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "rwethereyet.Journey.(lastStopIndex in _3C5547D42B6147DFDACF3DC280B8F514)() -&gt; Swift.Int"
+                  moduleName = "rwethereyet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lewistham/Documents/GitHub/rwethereyet-ios/rwethereyet/rwethereyet/model/Journey.swift"
+                  timestampString = "538912620.482891"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "341"
+                  endingLineNumber = "341"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "rwethereyet.Journey.(lastStopIndex in _3C5547D42B6147DFDACF3DC280B8F514)() -&gt; Swift.Int"
+                  moduleName = "rwethereyet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lewistham/Documents/GitHub/rwethereyet-ios/rwethereyet/rwethereyet/model/Journey.swift"
+                  timestampString = "538912620.489153"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "341"
+                  endingLineNumber = "341"
+                  offsetFromSymbolStart = "161">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

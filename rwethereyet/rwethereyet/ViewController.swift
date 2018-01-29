@@ -50,8 +50,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! BusStopTableViewCell
         cell.lblCellBusStopName.text = stopList[indexPath.row].name
+        
         return cell
     }
+    
+    /* Feature to be implemented in the future
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //bring out main storyboard
+        let mainstoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        //initialise viewcontroller from main storyboard<<<<<<<<<<<<<<<<
+        let jc = mainstoryboard.instantiateViewController(withIdentifier:"inJourney") as! InJourneyViewController
+        
+        //or within instnatiation:
+        navigationController?.pushViewController(jc,animated: true)
+        newJourney.selectBusRoute(end: Int16(indexPath.row))
+        jc.journey = newJourney
+    }
+ */
     
     //functions
     override func viewDidLoad() {
@@ -62,6 +78,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let gif = UIImage(gifName: "thinking3d.gif")
         self.imageView.setGifImage(gif, manager: gifmanager)
         
+        //newJourney.getUpdatedPost()
         
         //observer to get initstop loading status
         NotificationCenter.default.addObserver(forName: Notification.Name("loading"), object: nil, queue: nil, using: checkLoading(notif: ))
@@ -71,6 +88,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //observer to get selection possibilities based on current stop
         NotificationCenter.default.addObserver(forName: Notification.Name("postSelectionInfo"), object: nil, queue: nil, using: updateSelectionInfo(notif: ))
     }
+    
+    
     
     
     func updateSelectionInfo(notif: Notification) -> Void //what happens when u find a stop OR select a bus service
