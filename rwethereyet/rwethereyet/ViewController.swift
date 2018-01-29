@@ -22,6 +22,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var aiLoading: UIActivityIndicatorView!
+    var previousIndex : Int = 0
 
     //setter for collection view
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -34,9 +35,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
-    //checks for selecting collection view cell
+    //set title to amke sense
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         newJourney.selectSvc(svcInt: indexPath.row)
+        let lastStopName = newJourney.routeDestinations![(newJourney.routeDestinations?.count)!-1].name!
+        let svcNo = svcList[indexPath.row].svcNo!
+        self.title = svcNo + " towards " + lastStopName
+    }
+    
+    // change background color when user touches cell
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        cell?.backgroundColor = UIColor.blue
+    }
+    
+    // change back
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        cell?.backgroundColor = UIColor.cyan
     }
     
     var svcList = [] as! [BusServiceRoute]
@@ -52,6 +68,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.lblCellBusStopName.text = stopList[indexPath.row].name
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //calculate number of stops user is away
+        let stopcount = indexPath.row+1
+        
+        if stopcount>1
+        {
+            lblInstruction.text = "You are "+String(stopcount)+" stops away"
+        }
+        else
+        {
+            lblInstruction.text = "You are "+String(stopcount)+" stop away"
+        }
     }
     
     /* Feature to be implemented in the future
