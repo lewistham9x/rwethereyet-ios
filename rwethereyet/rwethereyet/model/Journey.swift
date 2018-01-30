@@ -77,14 +77,16 @@ public class Journey{
     
     private func onLocationChanged(newLat: Double, newLon: Double)
     {
+        /*
         //hard code debug
         let fnewLat = 1.33243896358504
         let fnewLon = 103.77768506316727
-
+*/
+        
         currLat = newLat
         currLon = newLon
          
-        if (isAtAStop(lat: fnewLat, lon: fnewLon))
+        if (isAtAStop(lat: newLat, lon: newLon))
         {
             state.reachedGudStop()
         }
