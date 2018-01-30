@@ -156,8 +156,8 @@
 				1D6BC3282011EED400AF208C /* JourneyStates.swift */,
 				1D6BC32A2012455C00AF208C /* DataInitialiser.swift */,
 				1DAA29AC2015DD3000B7C255 /* BusStopTableViewController.swift */,
-				1D1397D920160FB700A9D433 /* thinking3d.gif */,
 				1D75E592201F15C700892C8F /* spinnerthinking.gif */,
+				1D1397D920160FB700A9D433 /* thinking3d.gif */,
 				1D71B4B720170BFC00D675D0 /* InJourneyViewController.swift */,
 			);
 			path = rwethereyet;
@@ -689,6 +689,7 @@
 			baseConfigurationReference = E9C31EA2BBCE90A4DACAED77 /* Pods-rwethereyet.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 547K33EUK7;
 				INFOPLIST_FILE = rwethereyet/Info.plist;
@@ -706,6 +707,7 @@
 			baseConfigurationReference = 3B281EEC20E012C2A134503E /* Pods-rwethereyet.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 547K33EUK7;
 				INFOPLIST_FILE = rwethereyet/Info.plist;

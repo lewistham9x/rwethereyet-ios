@@ -17,20 +17,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Searching for Bus Stop..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gT-li-6yO">
-                                <rect key="frame" x="0.0" y="64" width="375" height="122"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pxm-Db-Mxi">
-                                <rect key="frame" x="0.0" y="194" width="375" height="537"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pxm-Db-Mxi">
+                                <rect key="frame" x="0.0" y="194" width="375" height="473"/>
                             </imageView>
-                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dS5-CK-bzb">
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dS5-CK-bzb">
                                 <rect key="frame" x="0.0" y="294" width="375" height="373"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="xXj-eG-xbh" customClass="BusStopTableViewCell" customModule="rwethereyet" customModuleProvider="target">
@@ -59,9 +50,8 @@
                                     <outlet property="delegate" destination="abL-V2-2be" id="x5q-SN-Bjn"/>
                                 </connections>
                             </tableView>
-                            <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceHorizontal="YES" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qg6-ls-V2h">
+                            <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qg6-ls-V2h">
                                 <rect key="frame" x="0.0" y="194" width="375" height="69"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MXx-Oj-Pcj">
                                     <size key="itemSize" width="110" height="64"/>
@@ -104,8 +94,34 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Searching for Bus Stop..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gT-li-6yO">
+                                <rect key="frame" x="47" y="109" width="281" height="32"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="dS5-CK-bzb" firstAttribute="top" secondItem="H5r-LE-eOm" secondAttribute="top" constant="230" id="14A-se-IS5"/>
+                            <constraint firstItem="dS5-CK-bzb" firstAttribute="bottom" secondItem="H5r-LE-eOm" secondAttribute="bottom" id="2MK-hQ-ydV"/>
+                            <constraint firstItem="dS5-CK-bzb" firstAttribute="trailing" secondItem="H5r-LE-eOm" secondAttribute="trailing" id="3dO-cE-YN7"/>
+                            <constraint firstItem="qg6-ls-V2h" firstAttribute="trailing" secondItem="H5r-LE-eOm" secondAttribute="trailing" id="3ot-gz-yEh"/>
+                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="top" secondItem="H5r-LE-eOm" secondAttribute="top" constant="130" id="ECQ-Iw-eKk"/>
+                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="leading" secondItem="H5r-LE-eOm" secondAttribute="leading" id="JPf-cE-5Yv"/>
+                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="trailing" secondItem="H5r-LE-eOm" secondAttribute="trailing" id="MrE-oC-rVl"/>
+                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="top" secondItem="7gT-li-6yO" secondAttribute="bottom" constant="53" id="Yrt-QN-fu6"/>
+                            <constraint firstItem="H5r-LE-eOm" firstAttribute="trailing" secondItem="7gT-li-6yO" secondAttribute="trailing" constant="47" id="aIY-ZI-d6C"/>
+                            <constraint firstItem="H5r-LE-eOm" firstAttribute="bottom" secondItem="7gT-li-6yO" secondAttribute="bottom" constant="481" id="ahn-ps-7Iy"/>
+                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="bottom" secondItem="H5r-LE-eOm" secondAttribute="bottom" id="hfh-zP-0AJ"/>
+                            <constraint firstItem="qg6-ls-V2h" firstAttribute="leading" secondItem="H5r-LE-eOm" secondAttribute="leading" id="kHG-MT-CRH"/>
+                            <constraint firstItem="7gT-li-6yO" firstAttribute="top" secondItem="0vj-td-Q8J" secondAttribute="top" constant="109" id="leT-Jh-ahZ"/>
+                            <constraint firstItem="dS5-CK-bzb" firstAttribute="leading" secondItem="H5r-LE-eOm" secondAttribute="leading" id="nRc-sI-xXH"/>
+                            <constraint firstItem="7gT-li-6yO" firstAttribute="leading" secondItem="H5r-LE-eOm" secondAttribute="leading" constant="47" id="pr9-gL-vuV"/>
+                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="top" secondItem="7gT-li-6yO" secondAttribute="bottom" constant="53" id="qia-PC-Tsp"/>
+                            <constraint firstItem="qg6-ls-V2h" firstAttribute="top" secondItem="H5r-LE-eOm" secondAttribute="top" constant="130" id="rRB-09-Ubb"/>
+                            <constraint firstItem="H5r-LE-eOm" firstAttribute="bottom" secondItem="qg6-ls-V2h" secondAttribute="bottom" constant="404" id="rnc-Ny-aSd"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="H5r-LE-eOm"/>
                     </view>
                     <navigationItem key="navigationItem" title="Bus Signboard" id="Itb-03-Jni"/>
