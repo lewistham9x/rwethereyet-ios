@@ -51,8 +51,12 @@
                                 </connections>
                             </tableView>
                             <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qg6-ls-V2h">
-                                <rect key="frame" x="0.0" y="194" width="375" height="69"/>
+                                <rect key="frame" x="0.0" y="191" width="375" height="66"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="66" id="oH2-X1-679"/>
+                                </constraints>
+                                <viewLayoutGuide key="safeArea" id="Of8-b3-FoY"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MXx-Oj-Pcj">
                                     <size key="itemSize" width="110" height="64"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -61,7 +65,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" reuseIdentifier="collectioncell" id="0Z1-Hb-ID8" customClass="BusServiceCollectionViewCell" customModule="rwethereyet" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="2.5" width="110" height="64"/>
+                                        <rect key="frame" x="0.0" y="1" width="110" height="64"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="110" height="64"/>
@@ -95,7 +99,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Searching for Bus Stop..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gT-li-6yO">
-                                <rect key="frame" x="47" y="109" width="281" height="32"/>
+                                <rect key="frame" x="50" y="109" width="275" height="32"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -103,24 +107,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="dS5-CK-bzb" firstAttribute="top" secondItem="H5r-LE-eOm" secondAttribute="top" constant="230" id="14A-se-IS5"/>
-                            <constraint firstItem="dS5-CK-bzb" firstAttribute="bottom" secondItem="H5r-LE-eOm" secondAttribute="bottom" id="2MK-hQ-ydV"/>
-                            <constraint firstItem="dS5-CK-bzb" firstAttribute="trailing" secondItem="H5r-LE-eOm" secondAttribute="trailing" id="3dO-cE-YN7"/>
-                            <constraint firstItem="qg6-ls-V2h" firstAttribute="trailing" secondItem="H5r-LE-eOm" secondAttribute="trailing" id="3ot-gz-yEh"/>
-                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="top" secondItem="H5r-LE-eOm" secondAttribute="top" constant="130" id="ECQ-Iw-eKk"/>
-                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="leading" secondItem="H5r-LE-eOm" secondAttribute="leading" id="JPf-cE-5Yv"/>
-                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="trailing" secondItem="H5r-LE-eOm" secondAttribute="trailing" id="MrE-oC-rVl"/>
-                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="top" secondItem="7gT-li-6yO" secondAttribute="bottom" constant="53" id="Yrt-QN-fu6"/>
-                            <constraint firstItem="H5r-LE-eOm" firstAttribute="trailing" secondItem="7gT-li-6yO" secondAttribute="trailing" constant="47" id="aIY-ZI-d6C"/>
-                            <constraint firstItem="H5r-LE-eOm" firstAttribute="bottom" secondItem="7gT-li-6yO" secondAttribute="bottom" constant="481" id="ahn-ps-7Iy"/>
-                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="bottom" secondItem="H5r-LE-eOm" secondAttribute="bottom" id="hfh-zP-0AJ"/>
-                            <constraint firstItem="qg6-ls-V2h" firstAttribute="leading" secondItem="H5r-LE-eOm" secondAttribute="leading" id="kHG-MT-CRH"/>
-                            <constraint firstItem="7gT-li-6yO" firstAttribute="top" secondItem="0vj-td-Q8J" secondAttribute="top" constant="109" id="leT-Jh-ahZ"/>
-                            <constraint firstItem="dS5-CK-bzb" firstAttribute="leading" secondItem="H5r-LE-eOm" secondAttribute="leading" id="nRc-sI-xXH"/>
-                            <constraint firstItem="7gT-li-6yO" firstAttribute="leading" secondItem="H5r-LE-eOm" secondAttribute="leading" constant="47" id="pr9-gL-vuV"/>
-                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="top" secondItem="7gT-li-6yO" secondAttribute="bottom" constant="53" id="qia-PC-Tsp"/>
-                            <constraint firstItem="qg6-ls-V2h" firstAttribute="top" secondItem="H5r-LE-eOm" secondAttribute="top" constant="130" id="rRB-09-Ubb"/>
-                            <constraint firstItem="H5r-LE-eOm" firstAttribute="bottom" secondItem="qg6-ls-V2h" secondAttribute="bottom" constant="404" id="rnc-Ny-aSd"/>
+                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="top" secondItem="7gT-li-6yO" secondAttribute="bottom" constant="53" id="1vE-Fd-pV6"/>
+                            <constraint firstItem="dS5-CK-bzb" firstAttribute="leading" secondItem="H5r-LE-eOm" secondAttribute="leading" id="4PA-cE-hAi"/>
+                            <constraint firstItem="7gT-li-6yO" firstAttribute="centerX" secondItem="0vj-td-Q8J" secondAttribute="centerX" id="Crj-Id-ZFZ"/>
+                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="bottom" secondItem="H5r-LE-eOm" secondAttribute="bottom" id="HAH-mB-Fx0"/>
+                            <constraint firstItem="qg6-ls-V2h" firstAttribute="leading" secondItem="H5r-LE-eOm" secondAttribute="leading" id="LDt-g3-zHK"/>
+                            <constraint firstItem="dS5-CK-bzb" firstAttribute="bottom" secondItem="H5r-LE-eOm" secondAttribute="bottom" id="RwR-9H-4l1"/>
+                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="leading" secondItem="H5r-LE-eOm" secondAttribute="leading" id="Z7H-Kd-FOF"/>
+                            <constraint firstItem="7gT-li-6yO" firstAttribute="top" secondItem="H5r-LE-eOm" secondAttribute="top" constant="45" id="fPY-tQ-zdP"/>
+                            <constraint firstItem="dS5-CK-bzb" firstAttribute="top" secondItem="H5r-LE-eOm" secondAttribute="top" constant="230" id="hvI-mY-Eqc"/>
+                            <constraint firstItem="dS5-CK-bzb" firstAttribute="trailing" secondItem="H5r-LE-eOm" secondAttribute="trailing" id="jiH-Mj-8WE"/>
+                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="trailing" secondItem="H5r-LE-eOm" secondAttribute="trailing" id="lT2-Bu-lVO"/>
+                            <constraint firstItem="qg6-ls-V2h" firstAttribute="trailing" secondItem="H5r-LE-eOm" secondAttribute="trailing" id="m77-Sh-Wgy"/>
+                            <constraint firstItem="qg6-ls-V2h" firstAttribute="top" secondItem="7gT-li-6yO" secondAttribute="bottom" constant="50" id="mwX-IL-yeG"/>
+                            <constraint firstItem="Pxm-Db-Mxi" firstAttribute="top" secondItem="H5r-LE-eOm" secondAttribute="top" constant="130" id="zWa-Ag-17v"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="H5r-LE-eOm"/>
                     </view>
@@ -135,7 +135,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BqB-xm-CX6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1029.5999999999999" y="114.69265367316342"/>
+            <point key="canvasLocation" x="1028" y="113.79310344827587"/>
         </scene>
         <!--inJourney-->
         <scene sceneID="CXa-CI-t4q">

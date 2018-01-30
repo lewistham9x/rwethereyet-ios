@@ -139,7 +139,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         svcList = availSvcs(stop: lastStop)
         //TO DO: populate collection view
         stopList = destinations
-        lblBusStopName.text = lastStop.name
+        lblBusStopName.text = lastStop.name! + " (" + lastStop.stopNo! + ")"
         
         tableView.reloadData()
         collectionView.reloadData()
